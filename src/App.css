@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+    overflow-y: hidden;
+    --primary-1-color: #0EADE5;
+    --primary: red;
+    --logo-text-color:#140242;
+}
+.dropdownfilter {
+  padding: 3px 17px !important;
+  padding-right: 30px !important;
+}
+.react-datepicker-popper {
+  z-index: 20 !important;
+}
+.react-datepicker-wrapper{
+  width: 100% !important;
+}
+input[type="checkbox"]:checked {
+  background-color: #140242 !important; 
+  border-color: #633A8D !important;    
+}
+.react-datepicker__header{
+  background: #fcf2fe ;
+}
+.sidebar-item:hover,
+.sidebar-item.active {
+  color: #140242;
+}
+.sidebar-item:hover {
+  background-color: #fcf2fe;
+}
+.sidebar-item:hover .sidebar-icon,
+.sidebar-item.active .sidebar-icon,
+.sidebar-item:hover .sidebar-text,
+.sidebar-item.active .sidebar-text ,
+.common_icon {
+  color: #140242 !important;
+}
+.common_icon:hover{
+  --text-primary-color: #140242 !important;
+}
+
+.filter-button{
+  margin-top: -40px !important;
+}
+
+/* Dropdown  */
+.css-1xc3v61-indicatorContainer, .css-15lsz6c-indicatorContainer{
+  padding: 0px 6px !important;
+}
+.css-13cymwt-control,.css-t3ipsp-control{
+  height: 20px !important;
+}
+
+
+
+table th {
+  /* position: sticky; */
+  top: 0;
+  background-color: #fcf2fe !important;
+  /* z-index: 1; */
+  padding-left: 10px;
+  min-width: 100% !important;
+}
+input[type='text']:focus {
+  box-shadow: none;
+  outline: none;
+  cursor: pointer;
+}
+.select-form-containers .select-form__menu {
+  z-index: 1999;
+  width: max-content;
+  min-width: 100%;
+  max-width: 600px;
+}
+
+/* icon css */
+.common_icon_image .picture-opacity-1{width: 100%;height: 100%;}
+.common_icon_image .picture-opacity-1 img{vertical-align: 4px;height: 100%;width: 100%;object-fit: contain;object-position: center;}
+.common_icon {--height: 18px;--width: 18px;--text-primary-color: gray;--icon-url: none;mask-position: center;-webkit-mask-position: center;mask-repeat: no-repeat;-webkit-mask-repeat: no-repeat;mask-size: contain;-webkit-mask-size: contain;background-color: var(--text-primary-color);height: var(--height);width: var(--width);display: inline-block;position: relative;mask-image: var(--icon-url);--webkit-mask-image: var(--icon-url);-webkit-mask-size: contain;mask-size: contain;vertical-align: -4px;}
+.ScrollbarsSidebar .thumb-view{transform: translateY(0px);position: relative;display: block;width: 100%;cursor: pointer;border-radius: inherit;background-color: rgba(219, 210, 210, 0.445);z-index: 2;}
+.ScrollbarsSidebar .thumb-view{transform: translateY(0px);position: relative;display: block;width: 100%;cursor: pointer;border-radius: inherit;background-color: rgba(219, 210, 210, 0.445);z-index: 2;}
+.body-wrapper{width: 100%;height: 100%;}
+table th:first-child{
+    border-radius:10px 0 0 10px;
+  }
+  table th:last-child{
+    border-radius:0 10px 10px 0;
+  }
+  table td{
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  .popup-table th:first-child{
+    border-radius:0 0 0 0;
+  }
+  .popup-table th:last-child{
+    border-radius:0 0 0 0;
+  }
+  .popup-table td{
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+  .select-form-containers .select-form__menu {z-index: 1999;width: max-content;min-width: 100%;max-width: 600px;}
+  .select-form__control {height: 42px;}
+  .select-form__control {
+    outline: none; 
+    box-shadow: none; 
+  }
+.personImage{
+  height: 95px;
+  width: 95px;
+}
+.details-header{
+  display: flex;
+  gap: 10px;
+  line-height: 30px;
+}
+.details-header p{
+  font-family: Poppins;
+  font-size: 16px;
+  font-weight: 600;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  color: #91A1CB;
+}
+.SalarySection{
+  background: linear-gradient(180deg, #E8EFFF 0%, #F9FBFF 100%);
+}
+
