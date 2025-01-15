@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import TableLayout from "../../layout/TableLayout";
-import FilterForm from "../../components/FilterForm";
-import FilterToggle from "../../components/FilterHideShow";
+import TableLayout from "../../../layout/TableLayout";
+import FilterForm from "../../../components/FilterForm";
+import FilterToggle from "../../../components/FilterHideShow";
 import {
   setFilteredData,
   openModal,
   closeModal,
-} from "../../redux/reducers/hrReducer";
-import Modal from "../../Popups/Modal";
+} from "../../../redux/reducers/hrReducer";
+import Modal from "../../../Popups/Modal";
 
-const PendingLeave = () => {
+const CancelledLeave = () => {
   const dispatch = useDispatch();
   const { attendanceData, filteredData, isModalOpen, modalData } = useSelector(
     (state) => state.hrApp
@@ -85,18 +85,15 @@ const PendingLeave = () => {
             label: item.name,
           }))}
           LeaveType={[
-            { value: "Sick Leave", label: "Sick Leave" },
-            { value: "Casual Leave", label: "Casual Leave" },
-            { value: "Earned Leave", label: "Earned Leave" },
-            { value: "Maternity Leave", label: "Maternity Leave" },
-            { value: "Other", label: "Other" },
+            { value: "Present", label: "Present" },
+            { value: "Absent", label: "Absent" },
+            { value: "Late", label: "Late" },
           ]}
           LeaveStatus={[
             { value: "Pending", label: "Pending" },
             { value: "Accepted", label: "Accepted" },
             { value: "Cancelled", label: "Cancelled" },
           ]}
-
           handleSearch={handleSearch}
           handleReset={handleReset}
         />
@@ -115,15 +112,18 @@ const PendingLeave = () => {
         serial_no={true}
         edit={true}
         // view={true}
+        
         isDelete={true}
         handleOpen={() => console.log("Opening form to add new attendance")}
         callEditClick={callEditClick}
         callDeleteClick={callDeleteClick}
+        callViewClick={callViewClick}
+        // style={{ height: `${showFilters ? 'calc( 100vh - 250px)' : 'calc( 100vh - 180px)'}`}} // without buttons 20px
         style={{
-          height: `${
-            showFilters ? "calc( 100vh - 125px)" : "calc( 100vh - 0px)"
-          }`,
-        }}
+            height: `${
+              showFilters ? "calc( 100vh - 125px)" : "calc( 100vh - 0px)"
+            }`,
+          }}
         links={{}}
       />
 
@@ -138,4 +138,4 @@ const PendingLeave = () => {
   );
 };
 
-export default PendingLeave;
+export default CancelledLeave;

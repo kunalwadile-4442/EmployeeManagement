@@ -1,6 +1,6 @@
 import React from "react";
-import ProjectCard from "../../components/ProjectDashboardCard";
-import Scrollbar from "../../components/Scrollbar";
+import ProjectCard from "../../../components/ProjectDashboardCard";
+import Scrollbar from "../../../components/Scrollbar";
 import { useNavigate } from "react-router-dom";
 
 export default function ProjectDashboard() {
@@ -68,28 +68,27 @@ export default function ProjectDashboard() {
 
   const addReport = () => {
     console.log("add Project clicked");
-    navigate("/project/add-project");
+    navigate("/project/dashboard/add-project");
   };
   return (
     <>
-      {/* <h3 className="text-lg font-semibold text-gray-900">Project Dashboard</h3> */}
       <div className="container mx-auto px-4 py-2">
         <div className="flex justify-end items-center mb-2">
           <button
             className="px-4 py-1 bg-logo-text-color text-white rounded-md hover:bg-light-logo-color text-sm transition-colors"
             onClick={addReport}
           >
-            Add New Project
+           + Add New Project
           </button>
         </div>
 
         <Scrollbar
-          style={{ height: 650 }}
+       style={{ height: `calc(100vh - 120px)` }}
           autoHide={true}
           autoHideTimeout={1000}
           autoHideDuration={200}
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mr-3">
             {dashboard2.projects.map((project) => {
               const totalDays = calculateTotalDays(project.date);
               return (

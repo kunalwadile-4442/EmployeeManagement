@@ -10,44 +10,33 @@ export const sidebarList = [
     { name: "Employee Management", route: "/employee/info", icon: App_url.image.report }
 ];
 
-document.addEventListener("DOMContentLoaded", () => {
-    const forms = document.querySelectorAll("form");
-    forms.forEach((form) => {
-      form.addEventListener("keypress", (event) => {
-        if (event.key === "Enter") {
-          handleEnterKey(event);
-        }
-      });
-    });
-  });
-  
-  function handleEnterKey(event) {
-    const currentElement = event.target;
-  
-    if (
-      currentElement.tagName === "BUTTON" ||
-      currentElement.tagName === "TEXTAREA" ||
-      currentElement.tagName === "FORM"
-    ) {
-      return;
-    }
-  
-    event.preventDefault(); 
-  
-    const form = currentElement.closest("form");
-    if (!form) return;
-  
-    const focusableElements = Array.from(
-      form.querySelectorAll(
-        'input, select, textarea, button, [tabindex]:not([tabindex="-1"])'
-      )
-    ).filter((el) => !el.disabled && !el.readOnly);
-  
-    const currentIndex = focusableElements.indexOf(currentElement);
-    const nextElement = focusableElements[currentIndex + 1];
-  
-    if (nextElement) {
-      nextElement.focus();
-    }
-  }
-  
+export const  basicDetails = {
+  first_name: "Kunal",
+  last_name: "Wadile",
+  empEmail: 'kunal@appristine.in',
+  password: 'jduindjnsdu',
+  bank: 'jnsdbj',
+  panCard: '89288298',
+  dateOfBirth: "2015/2/2",
+  // male: true,
+  // female: false,
+  gender:"",
+  empProfilePic: '',
+  permanentAdd: 'pune MH',
+  presentAdd: 'Phase 1',
+  empMobileNumber: '8292988982',
+  postCode: '',
+  city: 'pune',
+  states: 'MH',
+  departmentName: "",
+  locationName: "",
+  designationName: "",
+  report_to: "Sachin Sir/ Rohit Sri",
+  dateOfJoining: "2025/01/15", 
+  yearlyExperience: null, 
+  monthlyExperience: null, 
+  employeeType: "", 
+  jobName: "", 
+  employeeStatus: "", 
+  basicSalary: "520",
+}

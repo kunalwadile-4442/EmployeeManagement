@@ -1,5 +1,5 @@
 import React from "react";
-import TableLayout from "../../layout/TableLayout";
+import TableLayout from "../../../layout/TableLayout";
 import { useNavigate } from "react-router-dom";
 
 const Location = () => {
@@ -68,11 +68,11 @@ const Location = () => {
 
   const addNewLocation = () => {
     console.log("addNewLocation");
-    navigate("/location/create");
+    navigate("/organization/locations/create");
   };
 
   const callEditClick = (item) => {
-    navigate(`/location/${item.id}/edit`);
+    navigate(`/organization/locations/edit/${item.id}`);
   };
 
   const callDeleteClick = (item) => {
@@ -94,7 +94,7 @@ const Location = () => {
         callEditClick={callEditClick}
         callDeleteClick={callDeleteClick}
         style={{
-          height: 600,
+          height: "calc(100vh - 10px)", 
         }}
         links={{}}
       />

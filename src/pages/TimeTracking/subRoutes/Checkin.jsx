@@ -1,18 +1,17 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import TableLayout from "../../layout/TableLayout";
-import FilterForm from "../../components/FilterForm";
-import FilterToggle from "../../components/FilterHideShow";
-import {
-  setFilteredData,
-  openModal,
-  closeModal,
-} from "../../redux/reducers/hrReducer";
-import Modal from "../../Popups/Modal";
+ 
 
-const ApproveLeave = () => {
+
+// Checkin.js
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import TableLayout from "../../../layout/TableLayout";
+import FilterForm from "../../../components/FilterForm";
+import FilterToggle from "../../../components/FilterHideShow";
+import {setFilteredData} from "../../../redux/reducers/hrReducer";
+
+const Checkin = () => {
   const dispatch = useDispatch();
-  const { attendanceData, filteredData, isModalOpen, modalData } = useSelector(
+  const { attendanceData, filteredData } = useSelector(
     (state) => state.hrApp
   );
 
@@ -36,27 +35,7 @@ const ApproveLeave = () => {
     dispatch(setFilteredData(filtered));
   };
 
-  const handleClickWhoCheckLate = () => {
-    console.log("handleWhoNotSent clicked");
-    const tableData = [
-      ["John Doe", "2025-01-01"],
-      ["Jane Smith", "2025-01-02"],
-      ["Mark Lee", "2025-01-03"],
-      ["Alice Brown", "2025-01-04"],
-      ["Robert White", "2025-01-05"],
-    ];
-    dispatch(
-      openModal({
-        title: "Late CheckIn",
-        tableHeaders: ["Full Name", "In Date"],
-        tableData: tableData,
-      })
-    );
-  };
-  const handleCloseModal = () => {
-    dispatch(closeModal());
-  };
-  const handleReset = () => {
+  const resetFilters = () => {
     dispatch(setFilteredData(attendanceData));
   };
 
@@ -84,18 +63,10 @@ const ApproveLeave = () => {
             value: item.name,
             label: item.name,
           }))}
-          LeaveType={[
-            { value: "Present", label: "Present" },
-            { value: "Absent", label: "Absent" },
-            { value: "Late", label: "Late" },
-          ]}
-          LeaveStatus={[
-            { value: "Pending", label: "Pending" },
-            { value: "Accepted", label: "Accepted" },
-            { value: "Cancelled", label: "Cancelled" },
-          ]}
+         
+          FormDate
+          ToDate
           handleSearch={handleSearch}
-          handleReset={handleReset}
         />
       )}
 
@@ -112,30 +83,29 @@ const ApproveLeave = () => {
         serial_no={true}
         edit={true}
         // view={true}
+      
+        TimeCount={true}
+        CheckIn
+        ClickHandleCheckIn={()=> console.log("ClickHandleCheckIn clicked")}
         
         isDelete={true}
+        title="Add Attendance"
         handleOpen={() => console.log("Opening form to add new attendance")}
         callEditClick={callEditClick}
         callDeleteClick={callDeleteClick}
         callViewClick={callViewClick}
-        // style={{ height: `${showFilters ? 'calc( 100vh - 250px)' : 'calc( 100vh - 180px)'}`}} // without buttons 20px
+       
         style={{
-            height: `${
-              showFilters ? "calc( 100vh - 125px)" : "calc( 100vh - 0px)"
-            }`,
-          }}
+          height: `${
+            showFilters ? "calc( 100vh - 90px)" : "calc( 100vh - 20px)"
+          }`,
+        }}
         links={{}}
       />
 
-      <Modal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        title={modalData?.title}
-        tableHeaders={modalData?.tableHeaders || []}
-        tableData={modalData?.tableData || []}
-      />
+     
     </div>
   );
 };
 
-export default ApproveLeave;
+export default Checkin;

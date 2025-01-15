@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import AuthenticatedLayout from "../../../layout/AuthenticatedLayout";
 import BasicInfo from "./BasicInfo";
-import CurrentWorkingInfo from "./CurrentWorkingInfo";
+// import CurrentWorkingInfo from "./CurrentWorkingInfo";
 import PreviousWorkingInfo from "./PreviousWorkingInfo";
 import EduDetails from "./EduDetails";
-import PersonalInfo from "./PersonalInfo";
+// import PersonalInfo from "./PersonalInfo";
 import UploadDocs from "./UploadDocs";
 
 
@@ -32,10 +32,10 @@ function EditLayout() {
 
   const tabs = [
     { tab: "basic", label: "Basic Details" },
-    { tab: "current", label: "Current Working Details" },
+    // { tab: "current", label: "Current Working Details" },
     { tab: "previous", label: "Previous Working Details" },
     { tab: "education", label: "Education Details" },
-    { tab: "personal", label: "Personal Info" },
+    // { tab: "personal", label: "Personal Info" },
     { tab: "upload_docs", label: "Upload Documents" },
   ];
 
@@ -55,10 +55,10 @@ function EditLayout() {
 
       <div className="mt-2">
         {activeTab === "basic" && <BasicInfo id={id} />}
-        {activeTab === "current" && <CurrentWorkingInfo id={id} />}
+        {/* {activeTab === "current" && <CurrentWorkingInfo id={id} />} */}
         {activeTab === "previous" && <PreviousWorkingInfo id={id} />}
         {activeTab === "education" && <EduDetails id={id} />}
-        {activeTab === "personal" && <PersonalInfo id={id} />}
+        {/* {activeTab === "personal" && <PersonalInfo id={id} />} */}
         {activeTab === "upload_docs" && <UploadDocs id={id} />}
       </div>
     </AuthenticatedLayout>

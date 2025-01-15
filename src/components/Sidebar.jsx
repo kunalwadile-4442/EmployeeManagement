@@ -18,22 +18,10 @@ const Sidebar = () => {
   };
 
   const isActive = (route) => {
-    // if (route === "/time-tracking") {
-    //   return pathname.includes("/time-tracking");
-    // }
-    // if (route === "/leave") {
-    //   return pathname.includes("/time-tracking");
-    // }
-    // if (route === "/time-employeeleave") {
-    //   return pathname.includes("/time-employeeleave");
-    // }
-    // if (route === "/time-projects") {
-    //   return pathname.includes("/time-projects");
-    // }
-    // if (route === "/employee") {
-    //   return pathname.includes("/employee");
-    // }
-    return pathname === route;
+    // console.log("ROUT",route,pathname);
+    const pathRout=pathname?.split('/')[1]
+    const sideBarRout=route?.split('/')[1]
+    return pathRout === sideBarRout;
   };
 
   return (
@@ -59,7 +47,7 @@ const Sidebar = () => {
             return (
               <div
                 key={index}
-                className={`flex items-center sidebar-item justify-between border-l sidebar-content 
+                className={`flex items-center sidebar-item justify-between border-l  sidebar-content 
                                 rounded-lg ml-2 mr-2 cursor-pointer px-1 py-2 mb-2 
                                 ${
                                   active

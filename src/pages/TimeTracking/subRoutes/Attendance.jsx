@@ -1,15 +1,15 @@
 // Attendance.js
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import TableLayout from "../../layout/TableLayout";
-import FilterForm from "../../components/FilterForm";
-import FilterToggle from "../../components/FilterHideShow";
+import TableLayout from "../../../layout/TableLayout";
+import FilterForm from "../../../components/FilterForm";
+import FilterToggle from "../../../components/FilterHideShow";
 import {
   setFilteredData,
   openModal,
   closeModal,
-} from "../../redux/reducers/hrReducer";
-import Modal from "../../Popups/Modal";
+} from "../../../redux/reducers/hrReducer";
+import Modal from "../../../Popups/Modal";
 
 const Attendance = () => {
   const dispatch = useDispatch();

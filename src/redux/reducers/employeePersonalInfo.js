@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   dateOfBirth: '',
-  male: false,
+  male: true,
   female: false,
   empProfilePic: '',
   permanentAdd: '',

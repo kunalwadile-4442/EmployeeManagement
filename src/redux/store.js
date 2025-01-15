@@ -12,6 +12,13 @@ import previousWorkingInfoReducer from './reducers/previousWorkingInfo';
 import eduDetailsReducer from './reducers/eduDetails';
 import employeePersonalInfoReducer from './reducers/employeePersonalInfo'
 import employeeDocsUploadReducer from './reducers/employeeDocsUpload'
+import HolidayFormReducer from './reducers/holidayFormReducer'
+import CompanyCreateAdminReducer from './reducers/CompanyCreateAdminReducer'
+import weekDefinitionReducer from './reducers/settingModalReducer'
+
+
+
+
 
 const store = configureStore({
   reducer: {
@@ -28,6 +35,10 @@ const store = configureStore({
     orgLocation: orgLocationReducer,
     orgDesignation: orgDesignationReducer,
     orgCompany: orgCompanyReducer,
+    holidayForm: HolidayFormReducer,
+    CompanyAdmin: CompanyCreateAdminReducer,
+    weekDefinition: weekDefinitionReducer,
+    
   },
 });
 

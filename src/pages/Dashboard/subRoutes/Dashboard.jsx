@@ -1,4 +1,4 @@
-import AuthenticatedLayout from '../../layout/AuthenticatedLayout';
+import AuthenticatedLayout from '../../../layout/AuthenticatedLayout';
 
 
 export default function Dashboard() {

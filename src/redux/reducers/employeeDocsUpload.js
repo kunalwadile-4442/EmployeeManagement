@@ -2,9 +2,10 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   docsType: '',
-  docsUpload: '',
+  docsUpload: null,
   description: '',  
 };
+console.log('initialState: docs upload',initialState)
 
 const employeeDocsUploadSlice = createSlice({
   name: 'employeeDocsUpload',

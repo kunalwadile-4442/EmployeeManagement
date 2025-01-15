@@ -23,9 +23,9 @@
 
 // export default FormLayout;
 
-import React from "react";
-import PrimaryButton from "../components/PrimaryButton";
-import Scrollbar from "../components/Scrollbar";
+// import React from "react";
+// import PrimaryButton from "../components/PrimaryButton";
+// import Scrollbar from "../components/Scrollbar";
 
 // const FormLayout = ({
 //   children,
@@ -83,54 +83,96 @@ import Scrollbar from "../components/Scrollbar";
 
 // export default FormLayout;
 
+import React from "react";
+import PrimaryButton from "../components/PrimaryButton";
+import Scrollbar from "../components/Scrollbar";
+import { useNavigate } from "react-router-dom";
+import { showSuccessToast, showErrorToast } from "../Utils/ToastsUtils"; // Import toast functions
+
 const FormLayout = ({
   children,
   content = {},
   onSubmit,
   actions = [],
   className = "",
-  style
+  style,
+  back,
 }) => {
   const handleSubmit = (e) => {
     e.preventDefault(); 
-    if (onSubmit) onSubmit(e); 
+    if (onSubmit){
+      onSubmit(e); 
+    } 
   };
 
-  return (
-    <div className={`formlayout-container ${className}`}>
-      <Scrollbar style={style}>
-        <form className="formlayout-form" onSubmit={handleSubmit}>
-          <div className="formlayout-children">{children}</div>
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (onSubmit) {
+  //     try {
+  //       await onSubmit(e); 
+  //       showSuccessToast("Form submitted successfully!"); 
+  //     } catch (error) {
+  //       showErrorToast("Form submission failed!"); 
+  //     }
+  //   }
+  // };
+  
+  
 
-          <div className="formlayout-actions mt-2 mr-2 flex justify-end gap-2">
-            {content?.submit && (
-              <PrimaryButton type="submit" className="btn-submit">
-                {content.submit}
-              </PrimaryButton>
-            )}
-            {content?.cancel && (
-              <PrimaryButton
-                type="button"
-                className="btn-cancel"
-                onClick={content.onCancel || (() => {})}
-              >
-                {content.cancel}
-              </PrimaryButton>
-            )}
-            {actions.map((action, index) => (
-              <PrimaryButton
-                key={index}
-                type={action.type || "button"}
-                className={action.className || ""}
-                onClick={action.onClick || (() => {})}
-              >
-                {action.label}
-              </PrimaryButton>
-            ))}
-          </div>
-        </form>
-      </Scrollbar>
-    </div>
+  const navigate = useNavigate(); 
+  
+  const handleBackClick = () => {
+    navigate(-1); 
+  }
+
+  return (
+ 
+  <div className={`formlayout-container ${className}`}>
+  <div className="flex justify-end mr-4">
+    {back && (
+      <button
+        onClick={handleBackClick} 
+                  className=' px-4  py-1 text-white gap-0 rounded-lg bg-logo-text-color hover:bg-light-logo-color font-poppins text-sm  border font-medium  text-right'
+      >
+        Back
+      </button>
+    )}
+  </div>
+  
+  <Scrollbar style={style}>
+    <form className="formlayout-form mr-3" onSubmit={handleSubmit}>
+      <div className="formlayout-children">{children}</div>
+
+      <div className="formlayout-actions mt-2 mr-2 flex justify-end gap-2 mb-4">
+        {content?.submit && (
+          <PrimaryButton type="submit" className="btn-submit">
+            {content.submit}
+          </PrimaryButton>
+        )}
+        {content?.cancel && (
+          <PrimaryButton
+            type="button"
+            className="btn-cancel"
+            onClick={content.onCancel || (() => {})}
+          >
+            {content.cancel}
+          </PrimaryButton>
+        )}
+        {actions.map((action, index) => (
+          <PrimaryButton
+            key={index}
+            type={action.type || "button"}
+            className={action.className || ""}
+            onClick={action.onClick || (() => {})}
+          >
+            {action.label}
+          </PrimaryButton>
+        ))}
+      </div>
+    </form>
+  </Scrollbar>
+</div>
+
   );
 };
 

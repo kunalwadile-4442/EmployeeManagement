@@ -10,8 +10,11 @@ const initialState = {
     phone: "12312312311",
     email: "kunal@appristine.com",
     address: "Pune",
-    bannerImg: "/path/to/banner.jpg", 
-    profileImg: "/path/to/profile.jpg", 
+    bannerImg: "", 
+    profileImg: "", 
+    website:"www.appristine.com",
+    timezone:"",
+    country:"India",
   },
 };
 

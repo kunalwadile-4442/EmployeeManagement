@@ -1,17 +1,18 @@
- 
-
-
-// Checkin.js
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import TableLayout from "../../layout/TableLayout";
-import FilterForm from "../../components/FilterForm";
-import FilterToggle from "../../components/FilterHideShow";
-import {setFilteredData} from "../../redux/reducers/hrReducer";
+import TableLayout from "../../../layout/TableLayout";
+import FilterForm from "../../../components/FilterForm";
+import FilterToggle from "../../../components/FilterHideShow";
+import {
+  setFilteredData,
+  openModal,
+  closeModal,
+} from "../../../redux/reducers/hrReducer";
+import Modal from "../../../Popups/Modal";
 
-const Checkin = () => {
+const PendingLeave = () => {
   const dispatch = useDispatch();
-  const { attendanceData, filteredData } = useSelector(
+  const { attendanceData, filteredData, isModalOpen, modalData } = useSelector(
     (state) => state.hrApp
   );
 
@@ -35,7 +36,27 @@ const Checkin = () => {
     dispatch(setFilteredData(filtered));
   };
 
-  const resetFilters = () => {
+  const handleClickWhoCheckLate = () => {
+    console.log("handleWhoNotSent clicked");
+    const tableData = [
+      ["John Doe", "2025-01-01"],
+      ["Jane Smith", "2025-01-02"],
+      ["Mark Lee", "2025-01-03"],
+      ["Alice Brown", "2025-01-04"],
+      ["Robert White", "2025-01-05"],
+    ];
+    dispatch(
+      openModal({
+        title: "Late CheckIn",
+        tableHeaders: ["Full Name", "In Date"],
+        tableData: tableData,
+      })
+    );
+  };
+  const handleCloseModal = () => {
+    dispatch(closeModal());
+  };
+  const handleReset = () => {
     dispatch(setFilteredData(attendanceData));
   };
 
@@ -63,10 +84,21 @@ const Checkin = () => {
             value: item.name,
             label: item.name,
           }))}
-         
-          FormDate
-          ToDate
+          LeaveType={[
+            { value: "Sick Leave", label: "Sick Leave" },
+            { value: "Casual Leave", label: "Casual Leave" },
+            { value: "Earned Leave", label: "Earned Leave" },
+            { value: "Maternity Leave", label: "Maternity Leave" },
+            { value: "Other", label: "Other" },
+          ]}
+          LeaveStatus={[
+            { value: "Pending", label: "Pending" },
+            { value: "Accepted", label: "Accepted" },
+            { value: "Cancelled", label: "Cancelled" },
+          ]}
+
           handleSearch={handleSearch}
+          handleReset={handleReset}
         />
       )}
 
@@ -83,29 +115,27 @@ const Checkin = () => {
         serial_no={true}
         edit={true}
         // view={true}
-      
-        TimeCount={true}
-        CheckIn
-        ClickHandleCheckIn={()=> console.log("ClickHandleCheckIn clicked")}
-        
         isDelete={true}
-        title="Add Attendance"
         handleOpen={() => console.log("Opening form to add new attendance")}
         callEditClick={callEditClick}
         callDeleteClick={callDeleteClick}
-        callViewClick={callViewClick}
-       
         style={{
           height: `${
-            showFilters ? "calc( 100vh - 90px)" : "calc( 100vh - 20px)"
+            showFilters ? "calc( 100vh - 125px)" : "calc( 100vh - 0px)"
           }`,
         }}
         links={{}}
       />
 
-     
+      <Modal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        title={modalData?.title}
+        tableHeaders={modalData?.tableHeaders || []}
+        tableData={modalData?.tableData || []}
+      />
     </div>
   );
 };
 
-export default Checkin;
+export default PendingLeave;

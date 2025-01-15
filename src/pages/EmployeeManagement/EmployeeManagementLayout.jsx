@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, Outlet } from "react-router-dom";
 import AuthenticatedLayout from "../../layout/AuthenticatedLayout";
@@ -8,6 +7,8 @@ const EmployeeManagementLayout = () => {
 
   const getActiveTab = (currentUrl) => {
     if (currentUrl.includes("/employee/info")) return "info";
+    if (currentUrl.includes("/employee/active")) return "active";
+    if (currentUrl.includes("/employee/resign")) return "resign";
     return "info";
   };
 
@@ -20,7 +21,7 @@ const EmployeeManagementLayout = () => {
   return (
     <AuthenticatedLayout top_heading="">
       <div className="flex gap-3 px-3">
-        {["info"].map((key) => (
+        {["info", "active", "resign"].map((key) => (
           <Link
             key={key}
             to={`/employee/${key}`}
@@ -32,6 +33,8 @@ const EmployeeManagementLayout = () => {
             }`}
           >
             {key === "info" && "Employee Info"}
+            {key === "active" && "Active Employees"}
+            {key === "resign" && "Resigned Employees"}
           </Link>
         ))}
       </div>

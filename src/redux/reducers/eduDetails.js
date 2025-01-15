@@ -1,9 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { v4 as uuidv4 } from 'uuid';
 
 const initialEduState = {
-  eduDetails: [
-    { schoolName: "", degree: "", fieldOfStudy: "", dateOfCompletion: "", additionalNotes: "", interests: "" },
-  ],
+  eduDetails: [{
+    id: uuidv4(),
+    schoolName: "", 
+    degree: "", 
+    fieldOfStudy: "", 
+    dateOfCompletion: "", 
+    additionalNotes: "", 
+    interests: "" 
+  }],
 };
 
 const eduDetailsSlice = createSlice({
@@ -12,6 +19,7 @@ const eduDetailsSlice = createSlice({
   reducers: {
     addNewEduRow: (state) => {
       const newRow = { 
+        id: uuidv4(),
         schoolName: "", 
         degree: "", 
         fieldOfStudy: "", 
@@ -22,15 +30,18 @@ const eduDetailsSlice = createSlice({
       state.eduDetails.push(newRow);
     },
     updateEduRow: (state, action) => {
-      const { index, updatedRow } = action.payload;
-      state.eduDetails[index] = { ...state.eduDetails[index], ...updatedRow };
+      const { id, updatedRow } = action.payload;
+      const index = state.eduDetails.findIndex((row) => row.id === id);
+      if (index !== -1) {
+        state.eduDetails[index] = { ...state.eduDetails[index], ...updatedRow };
+      }
     },
     deleteEduRow: (state, action) => {
-      const { index } = action.payload;
-      state.eduDetails = state.eduDetails.filter((_, i) => i !== index);
+      const id = action.payload;
+      state.eduDetails = state.eduDetails.filter((row) => row.id !== id);
     },
     resetEduDetails: (state) => {
-      state.eduDetails = initialEduState.eduDetails;
+      state.eduDetails = [];
     },
   },
 });

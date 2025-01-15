@@ -1,7 +1,7 @@
 
 
 import React from "react";
-import TableLayout from "../../layout/TableLayout";
+import TableLayout from "../../../layout/TableLayout";
 import { useNavigate } from "react-router-dom";
 
 const Designations = () => {
@@ -47,11 +47,11 @@ const Designations = () => {
 
   const addNewDesignation = () => {
     console.log("addNewDesignation");
-    navigate("/designation/create");
+    navigate("/organization/designations/create");
   };
 
   const callEditClick = (item) => {
-    navigate(`/designation/${item.id}/edit`);
+    navigate(`/organization/designations/edit/${item.id}`);
   };
 
   const callDeleteClick = (item) => {
@@ -73,7 +73,7 @@ const Designations = () => {
         callEditClick={callEditClick}
         callDeleteClick={callDeleteClick}
         style={{
-          height: 600,
+          height: "calc(100vh - 10px)", 
         }}
         links={{}}
       />

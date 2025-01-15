@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   company: "",
   departmentName: "",
-  designation: "kunal",
+  designation: "Hr",
 };
 
 const orgDesignationSlice = createSlice({

@@ -390,6 +390,9 @@ import React, { useState } from "react";
 import InputLabel from "../components/InputLabel";
 import DropdownSelect from "../components/DropdownSelect";
 import ReactDatePicker from "react-datepicker";
+import DropdownSelectNew from "./DropdownSelectNew";
+import InputField from "./InputField";
+import { useForm } from "react-hook-form";
 
 const formatDate = (date) => {
   if (!date) return "";
@@ -403,6 +406,8 @@ const formatDate = (date) => {
 const FilterForm = ({
   EmployeeName,
   LeaveType,
+  HolidayType,
+  HolidayName,
   handleSearch,
   LeaveStatus,
   handleReset,
@@ -419,10 +424,12 @@ const FilterForm = ({
     to_date: "",
     type_name: "",
     emp_status: "",
-    desi_name:"",
-    dept_name:"",
-    location:"",
+    desi_name: "",
+    dept_name: "",
+    location: "",
   });
+
+  const { register } = useForm();
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -451,7 +458,7 @@ const FilterForm = ({
           <div className="flex flex-col w-full sm:w-1/2 md:w-1/5">
             <InputLabel htmlFor="employee_name" value="Employee Name" />
             <DropdownSelect
-              className="mt-1 w-full"
+              className="  w-full"
               name="employee_name"
               placeholder="Select Employee..."
               options={[
@@ -469,13 +476,10 @@ const FilterForm = ({
           <div className="flex flex-col w-full sm:w-1/2 md:w-1/5">
             <InputLabel htmlFor="location_name" value="Location" />
             <DropdownSelect
-              className="mt-1 w-full"
+              className="  w-full"
               name="location_name"
               placeholder="Select Location..."
-              options={[
-                { value: "", label: "Select Location" },
-                ...EmployeeName,
-              ]}
+              options={[{ value: "", label: "Select Location" }, ...Locations]}
               value={filters.location}
               onSelect={(selectedOption) =>
                 handleInputChange("location", selectedOption?.value)
@@ -483,17 +487,31 @@ const FilterForm = ({
             />
           </div>
         )}
-
+        {HolidayType && (
+          <div className="flex flex-col w-full sm:w-1/2 md:w-1/5">
+            <InputLabel htmlFor="holiday_type" value="Holiday Type" />
+            <DropdownSelect
+              className="  w-full"
+              name="holiday_type"
+              placeholder="Select Holiday..."
+              options={[{ value: "", label: "Select Holiday" }, ...HolidayType]}
+              value={filters.holiday_type}
+              onSelect={(selectedOption) =>
+                handleInputChange("holiday_type", selectedOption?.value)
+              }
+            />
+          </div>
+        )}
         {Department && (
           <div className="flex flex-col w-full sm:w-1/2 md:w-1/5">
             <InputLabel htmlFor="department_name" value="Department" />
             <DropdownSelect
-              className="mt-1 w-full"
+              className="  w-full"
               name="employee_name"
               placeholder="Select Department..."
               options={[
-                { value: "", label: "Select Employee" },
-                ...EmployeeName,
+                { value: "", label: "Select Department" },
+                ...Department,
               ]}
               value={filters.dept_name}
               onSelect={(selectedOption) =>
@@ -506,12 +524,12 @@ const FilterForm = ({
           <div className="flex flex-col w-full sm:w-1/2 md:w-1/5">
             <InputLabel htmlFor="designation_name" value="Designation" />
             <DropdownSelect
-              className="mt-1 w-full"
+              className="  w-full"
               name="employee_name"
               placeholder="Select Designation..."
               options={[
                 { value: "", label: "Select Designation" },
-                ...EmployeeName,
+                ...Designation,
               ]}
               value={filters.dsgi_name}
               onSelect={(selectedOption) =>
@@ -520,15 +538,14 @@ const FilterForm = ({
             />
           </div>
         )}
-
         {EmpStatus && (
           <div className="flex flex-col w-full sm:w-1/2 md:w-1/5">
             <InputLabel htmlFor="employee_status" value="Employee Status" />
             <DropdownSelect
-              className="mt-1 w-full"
+              className="  w-full"
               name="employee_status"
               placeholder="Select Status..."
-              options={[{ value: "", label: "Select Status" }, ...EmployeeName]}
+              options={[{ value: "", label: "Select Status" }, ...EmpStatus]}
               value={filters.emp_status}
               onSelect={(selectedOption) =>
                 handleInputChange("emp_status", selectedOption?.value)
@@ -536,12 +553,11 @@ const FilterForm = ({
             />
           </div>
         )}
-
         {LeaveType && (
           <div className="flex flex-col w-full sm:w-1/2 md:w-1/5">
             <InputLabel htmlFor="leave_type" value="Leave Type" />
             <DropdownSelect
-              className="mt-1 w-full"
+              className="  w-full"
               name="leave_type"
               placeholder="Select Leave Type..."
               options={[
@@ -555,12 +571,11 @@ const FilterForm = ({
             />
           </div>
         )}
-
         {LeaveStatus && (
           <div className="flex flex-col w-full sm:w-1/2 md:w-1/5">
             <InputLabel htmlFor="leave_status" value="Leave Status" />
             <DropdownSelect
-              className="mt-1 w-full"
+              className="  w-full"
               name="leave_status"
               placeholder="Select Leave Status..."
               options={[
@@ -575,6 +590,17 @@ const FilterForm = ({
           </div>
         )}
 
+        {HolidayName && (
+          <div className="flex flex-col w-full sm:w-1/2 md:w-1/5">
+            <InputField
+              name="Holiday Name"
+              placeholder="Enter Holiday Name"
+              className=""
+              inputClassName="h-9.5 rounded-md"
+              register={register("holiday_name")}
+            />
+          </div>
+        )}
         {FormDate && (
           <div className="flex flex-col w-full sm:w-1/2 md:w-1/5">
             <InputLabel htmlFor="from_date" value="From Date" />
@@ -588,11 +614,10 @@ const FilterForm = ({
               }
               dateFormat="yyyy/MM/dd"
               placeholderText="Select From Date"
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+              className="  block w-full border border-gray-300 rounded-md p-2"
             />
           </div>
         )}
-
         {ToDate && (
           <div className="flex flex-col w-full sm:w-1/2 md:w-1/5">
             <InputLabel htmlFor="to_date" value="To Date" />
@@ -606,7 +631,7 @@ const FilterForm = ({
               }
               dateFormat="yyyy/MM/dd"
               placeholderText="Select To Date"
-              className="mt-1  block w-full border border-gray-300 rounded-md p-2"
+              className="   block w-full border border-gray-300 rounded-md p-2"
             />
           </div>
         )}

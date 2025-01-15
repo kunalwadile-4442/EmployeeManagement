@@ -158,32 +158,44 @@
 // }
 
 // export default DesignationForm;
-
-import AuthenticatedLayout from '../../../layout/AuthenticatedLayout';
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setDesignationFormData, resetDesignationFormData } from "../../../redux/reducers/orgDesignationReducer";
 import FormLayout from "../../../layout/FormLayout";
-import TextInput from "../../../components/TextInput";
-import InputLabel from "../../../components/InputLabel";
-import DropdownSelect from "../../../components/DropdownSelect";
 import { useNavigate } from 'react-router-dom';
+import DropdownSelectNew from '../../../components/DropdownSelectNew';
+import { useForm } from 'react-hook-form';
+import InputField from '../../../components/InputField';
 
 function DesignationForm({ id }) {
     const dispatch = useDispatch();
-    const formData = useSelector((state) => state.orgDesignation || {}); 
+    const formData = useSelector((state) => state.orgDesignation || {});
     const navigate = useNavigate();
 
     useEffect(() => {
         if (id) {
             const fetchedData = {
-                company: "Appristine",  
-                departmentName: "HR",  
-                designation: "Manager",  
+                company: "",
+                departmentName: "",
+                designation: "",
             };
-            dispatch(setDesignationFormData(fetchedData));  
+            dispatch(setDesignationFormData(fetchedData));
         }
     }, [id, dispatch]);
+
+    const {
+        register,
+        control,
+        setValue,
+        formState: { errors },
+        handleSubmit, 
+    } = useForm({
+        defaultValues: formData,
+    });
+
+    const companyOption = [
+        { value: "Appristine", label: "Appristine" },
+    ];
 
     const departmentOptions = [
         { value: "HR", label: "HR" },
@@ -196,64 +208,93 @@ function DesignationForm({ id }) {
         dispatch(setDesignationFormData({ [name]: value }));
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log("Submitted Data:", formData);
-        dispatch(resetDesignationFormData());  
+    const onSubmit = (data) => {
+        console.log("Submitted Data:", data);
+        dispatch(resetDesignationFormData());
+        navigate("/organization/designations")
     };
 
     return (
-        <AuthenticatedLayout
-            top_heading={"Designation Details"}
-            back={"Back"}
-            handleBackClick={() => navigate(-1)}
-        >
+      
             <FormLayout
                 content={{ submit: "Submit" }}
-                onSubmit={handleSubmit}
+                onSubmit={handleSubmit(onSubmit)} // Call handleSubmit to trigger validation
                 className="px-4 py-2 bg-white rounded-md"
                 style={{ height: 500 }}
+                back
             >
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="mb-4">
-                        <InputLabel htmlFor="company" value="Company Name" />
-                        <DropdownSelect
-                            id="company"
-                            options={[{ value: "Appristine", label: "Appristine Technology" }]}
-                            onSelect={(option) => handleInputChange("company", option.value)}
-                            value={{ value: formData.company, label: "Appristine Technology" }}
-                            placeholder="Select Company"
-                            className="mt-1"
+                        <DropdownSelectNew
+                            label="Company Name"
+                            name="company"
+                            options={companyOption}
+                            onSelect={(option) => {
+                                handleInputChange("company", option.value);
+                                setValue("company", option.value);
+                            }}
+                            value={companyOption.find(
+                                (option) => option.value === formData.company
+                            )}
+                            placeholder="Select company"
+                            control={control}
+                            rules={{ required: "Company is required" }}
+                            className=""
+                            setValue={setValue}
+                            required
                         />
+                        {errors.company && (
+                            <p className="text-red-500 text-xs">
+                                {errors.company.message}
+                            </p>
+                        )}
                     </div>
+
                     <div className="mb-4">
-                        <InputLabel htmlFor="departmentName" value="Department Name" />
-                        <DropdownSelect
-                            id="departmentName"
+                        <DropdownSelectNew
+                            label="Department Name"
+                            name="departmentName"
                             options={departmentOptions}
-                            onSelect={(option) => handleInputChange("departmentName", option.value)}
-                            value={departmentOptions.find((option) => option.value === formData.departmentName)}
-                            placeholder="Select Department"
-                            className="mt-1"
+                            onSelect={(option) => {
+                                handleInputChange("departmentName", option.value);
+                                setValue("departmentName", option.value);
+                            }}
+                            value={departmentOptions.find(
+                                (option) => option.value === formData.departmentName
+                            )}
+                            placeholder="Select Department Name"
+                            control={control}
+                            rules={{ required: "Department Name is required" }}
+                            className=""
+                            setValue={setValue}
+                            required
                         />
+                        {errors.departmentName && (
+                            <p className="text-red-500 text-xs">
+                                {errors.departmentName.message}
+                            </p>
+                        )}
                     </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="mb-4">
-                        <InputLabel htmlFor="designation" value="Designation Name" />
-                        <TextInput
-                            id="designation"
-                            name="designation"
-                            placeholder="Enter Designation"
-                            className="mt-1 block w-full px-3 py-1.5 border border-gray-300 rounded-md shadow-sm focus:outline-none"
-                            value={formData.designation}
-                            onChange={(e) => handleInputChange("designation", e.target.value)}
+                        <InputField
+                            name="Designation Name"
+                            placeholder="Enter Designation Name"
+                            className=" "
+                            inputClassName="h-9 rounded-md"
+                            register={register(`designation`, {
+                                required: "Designation Name is required", // Update validation message
+                            })}
+                            required
+                            error={errors?.designation?.message} // Show error if it exists
                         />
+                      
                     </div>
                 </div>
             </FormLayout>
-        </AuthenticatedLayout>
+      
     );
 }
 

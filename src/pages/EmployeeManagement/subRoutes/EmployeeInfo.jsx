@@ -1,22 +1,47 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import TableLayout from "../../layout/TableLayout";
-import FilterForm from "../../components/FilterForm";
-import FilterToggle from "../../components/FilterHideShow";
-import {
-  setFilteredData
- 
-} from "../../redux/reducers/hrReducer";
+import TableLayout from "../../../layout/TableLayout";
+import FilterForm from "../../../components/FilterForm";
+import FilterToggle from "../../../components/FilterHideShow";
+import { setFilteredData } from "../../../redux/reducers/hrReducer";
 import { useNavigate } from "react-router-dom";
 
 const EmployeeInfo = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { attendanceData, filteredData, } = useSelector(
+  const { attendanceData, filteredData } = useSelector(
     (state) => state.hrApp
   );
 
   const [showFilters, setShowFilters] = React.useState(false);
+
+  const locationOption = [
+    { value: "New York", label: "New York" },
+    { value: "San Francisco", label: "San Francisco" },
+    { value: "Los Angeles", label: "Los Angeles" },
+    { value: "Chicago", label: "Chicago" },
+  ];
+
+  const departmentOption = [
+    { value: "HR", label: "HR" },
+    { value: "Engineering", label: "Engineering" },
+    { value: "Marketing", label: "Marketing" },
+    { value: "Finance", label: "Finance" },
+  ];
+
+  const designationOption = [
+    { value: "Manager", label: "Manager" },
+    { value: "Developer", label: "Developer" },
+    { value: "Designer", label: "Designer" },
+    { value: "Analyst", label: "Analyst" },
+  ];
+
+  const employeeStatusOption = [
+    { value: "Active", label: "Active" },
+    { value: "Inactive", label: "Inactive" },
+    { value: "On Leave", label: "On Leave" },
+    { value: "Resigned", label: "Resigned" },
+  ];
 
   const handleSearch = (filters) => {
     let filtered = attendanceData;
@@ -27,37 +52,36 @@ const EmployeeInfo = () => {
       );
     }
 
-    if (filters.location) {
-      filtered = filtered.filter((item) => item.location === filters.location);
-    }
+    // if (filters.location) {
+    //   filtered = filtered.filter((item) => item.location === filters.location);
+    // }
 
-    if (filters.dept_name) {
-      filtered = filtered.filter(
-        (item) => item.department === filters.dept_name
-      );
-    }
+    // if (filters.dept_name) {
+    //   filtered = filtered.filter(
+    //     (item) => item.department === filters.dept_name
+    //   );
+    // }
 
-    if (filters.desi_name) {
-      filtered = filtered.filter(
-        (item) => item.designation === filters.desi_name
-      );
-    }
+    // if (filters.desi_name) {
+    //   filtered = filtered.filter(
+    //     (item) => item.designation === filters.desi_name
+    //   );
+    // }
 
-    if (filters.emp_status) {
-      filtered = filtered.filter((item) => item.status === filters.emp_status);
-    }
+    // if (filters.emp_status) {
+    //   filtered = filtered.filter((item) => item.status === filters.emp_status);
+    // }
 
     dispatch(setFilteredData(filtered));
   };
 
-  
   const handleReset = () => {
     dispatch(setFilteredData(attendanceData));
   };
 
   const callEditClick = (item) => {
     console.log("Edit attendance:", item);
-    navigate(`/employee/${item.id}/edit`);
+    navigate(`/employee/edit/${item.id}`);
   };
 
   const callDeleteClick = (item) => {
@@ -66,7 +90,7 @@ const EmployeeInfo = () => {
 
   const addNewEmp = () => {
     console.log("addNewEmp");
-    navigate("/employee/create");
+    navigate("/employee/info/create");
   };
 
   const columnKey = ["Name", "Date", "Status"];
@@ -78,6 +102,7 @@ const EmployeeInfo = () => {
       <td>{item.status}</td>
     </>
   );
+
   return (
     <div>
       <FilterToggle showFilters={showFilters} setShowFilters={setShowFilters} />
@@ -88,22 +113,10 @@ const EmployeeInfo = () => {
             value: item.name,
             label: item.name,
           }))}
-          Locations={attendanceData.map((item) => ({
-            value: item.location,
-            label: item.location,
-          }))}
-          Department={attendanceData.map((item) => ({
-            value: item.department,
-            label: item.department,
-          }))}
-          Designation={attendanceData.map((item) => ({
-            value: item.designation,
-            label: item.designation,
-          }))}
-          EmpStatus={attendanceData.map((item) => ({
-            value: item.status,
-            label: item.status,
-          }))}
+          Locations={locationOption}
+          Department={departmentOption}
+          Designation={designationOption}
+          EmpStatus={employeeStatusOption}
           handleSearch={handleSearch}
           handleReset={handleReset}
         />
@@ -123,11 +136,13 @@ const EmployeeInfo = () => {
         callDeleteClick={callDeleteClick}
         style={{
           height: `${
-            showFilters ? "calc( 100vh - 160px)" : "calc( 100vh - 10px)"
+            showFilters ? "calc( 100vh - 160px)" : "calc( 100vh - 20px)"
           }`,
         }}
         links={{}}
-      />      
+      />
+
+      
     </div>
   );
 };

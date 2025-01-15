@@ -1,5 +1,5 @@
 import Icon from "../components/Icon";
-import PaginationNew from "../components/PaginationNew";
+// import PaginationNew from "../components/PaginationNew";
 import Pagination from "../components/PaginationStatic"
 import Scrollbar from "../components/Scrollbar";
 import { App_url } from "../Utils/constants/Static";
@@ -40,6 +40,10 @@ const TableLayout = ({
   CheckIn,
   TimeCount,
   mainTitle,
+  PDF,
+  XLS,
+  handleClickXls,
+  handleClickPdf,
   who_check_in_late,
   customBtn,
   handleCustomBtnTitle,
@@ -148,6 +152,23 @@ const TableLayout = ({
               Check Leave
             </button>
           )}
+           {PDF && (
+            <button
+              onClick={handleClickPdf}
+              className="px-4 h-[30px] text-white gap-0 rounded-lg bg-logo-text-color hover:bg-light-logo-color"
+            >
+              PDF
+            </button>
+          )}
+           {XLS && (
+            <button
+              onClick={handleClickXls}
+              className="px-4 h-[30px] text-white gap-0 rounded-lg bg-logo-text-color hover:bg-light-logo-color"
+            >
+              XLS
+            </button>
+          )}
+
            {isAdd && (
             <button
               onClick={handleOpen}
@@ -230,7 +251,7 @@ const TableLayout = ({
                     attrIcon={App_url.image.delete}
                     button
                     size="md"
-                    onClick={() => callDeleteClick(item)}
+                    onClick={() => callDeleteClick({...item,index})}
                     className="w-6 h-6" // Fixed size
                   />
                 )}
@@ -333,7 +354,7 @@ return (
       <Scrollbar style={style}>
 
       <div
-        className="bg-transparent pb-4 rounded-lg shadow-md pt-2"
+        className="bg-transparent pb-4 rounded-lg  pt-2 mr-3"
         style={{
           borderRadius: "40px 0px 0px 0px",
           height: "100vh",

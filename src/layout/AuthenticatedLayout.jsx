@@ -232,7 +232,7 @@ export default function AuthenticatedLayout({ children, top_heading, back }) {
         <h1 className="font-poppins text-[22px] font-medium leading-[45px] text-left">
           {top_heading}
         </h1>
-        {/* Add onClick event to the back button */}
+       
        {back &&(
         <button
           onClick={handleBackClick} // Trigger handleBackClick function on button click
