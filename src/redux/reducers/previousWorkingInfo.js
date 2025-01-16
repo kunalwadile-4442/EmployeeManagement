@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import { v4 as uuidv4 } from 'uuid';
 // Initial state with rows having unique 'id'
 const initialState = {
   previousWorkingInfo: [
     {
-      id: Date.now(), // Unique ID for the row
+      id: uuidv4(),
       companyName: "",
       jobTitle: "Software Developer",
       fromDate: "",
@@ -21,7 +21,7 @@ const previousWorkingInfoSlice = createSlice({
     // Add a new row with a unique ID
     addNewRow: (state) => {
       const newRow = {
-        id: Date.now(), // Unique ID
+        id: uuidv4(),
         companyName: "",
         jobTitle: "",
         fromDate: "",

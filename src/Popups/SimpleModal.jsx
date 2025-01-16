@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form"; // Import useForm hook
 import InputField from "../components/InputField";
+import { showSuccessToast } from "../Utils/ToastsUtils";
 
 const SimpleModal = ({ isOpen, onClose, title }) => {
   const {
@@ -11,6 +12,7 @@ const SimpleModal = ({ isOpen, onClose, title }) => {
 
 
   const onSubmit = (data) => {
+    showSuccessToast("Data Saved Successfully!");
     console.log("Form data submitted:", data);
     
     onClose();

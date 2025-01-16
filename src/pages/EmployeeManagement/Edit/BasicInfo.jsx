@@ -78,26 +78,29 @@
 //     reset();
 //   };
 
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import { setBasicDetails } from "../../../redux/reducers/employeeBasicDetails";
+import {
+  setBasicDetails,
+  resetBasicDetails,
+  setGender,
+} from "../../../redux/reducers/employeeBasicDetails";
 import ReactDatePicker from "react-datepicker";
 import FormLayout from "../../../layout/FormLayout";
 import InputLabel from "../../../components/InputLabel";
 import { format } from "date-fns";
-import { basicDetails } from "../../../Utils/constants/Common";
 import InputField from "../../../components/InputField";
 import DropdownSelectNew from "../../../components/DropdownSelectNew";
 import RadioButton from "../../../components/RadioButton";
-import { showSuccessToast, showErrorToast } from "../../../Utils/ToastsUtils"; // Import toast functions
+import { showSuccessToast, showErrorToast } from "../../../Utils/ToastsUtils";
 
 function BasicInfo() {
   const dispatch = useDispatch();
-
-  const gender = useSelector(
-    (state) => state.employeeBasicDetails.basicDetails.gender
+  const basicDetails = useSelector(
+    (state) => state.employeeBasicDetails.basicDetails
   );
+
 
   const {
     register,
@@ -107,57 +110,22 @@ function BasicInfo() {
     watch,
     control,
     formState: { errors },
-  } = useForm();
-
-  useEffect(() => {
-    if (basicDetails && Object.keys(basicDetails).length > 0) {
-      reset({
-        first_name: basicDetails.first_name,
-        last_name: basicDetails.last_name,
-        empEmail: basicDetails.empEmail,
-        password: basicDetails.password,
-        bank: basicDetails.bank,
-        panCard: basicDetails.panCard,
-        dateOfBirth: basicDetails.dateOfBirth,
-        gender: basicDetails.gender,
-        empProfilePic: basicDetails.empProfilePic,
-        permanentAdd: basicDetails.permanentAdd,
-        presentAdd: basicDetails.presentAdd,
-        empMobileNumber: basicDetails.empMobileNumber,
-        postCode: basicDetails.postCode,
-        city: basicDetails.city,
-        states: basicDetails.states,
-        departmentName: basicDetails.departmentName,
-        locationName: basicDetails.locationName,
-        designationName: basicDetails.designationName,
-        report_to: basicDetails.report_to,
-        dateOfJoining: basicDetails.dateOfJoining,
-        yearlyExperience: basicDetails.yearlyExperience,
-        monthlyExperience: basicDetails.monthlyExperience,
-        employeeType: basicDetails.employeeType,
-        jobName: basicDetails.jobName,
-        employeeStatus: basicDetails.employeeStatus,
-        basicSalary: basicDetails.basicSalary,
-      });
-    }
-  }, [basicDetails]);
-
-  const handleRadioChange = (value) => {
-    const genderValue = String(value);
-    setValue("gender", genderValue);
-    dispatch(setBasicDetails({ gender: genderValue }));
-    console.log("Gender selected:", genderValue);
-  };
-
+  } = useForm({
+    defaultValues: basicDetails,
+  });
 
   const onSubmit = (data) => {
     try {
       console.log("Submitted Data:", data);
       dispatch(setBasicDetails(data));
-        showSuccessToast("Basic details saved successfully!");
+      showSuccessToast("Basic details saved successfully!");
+      dispatch(resetBasicDetails());
+      reset();
     } catch (error) {
       console.error("Error saving basic details:", error);
-      showErrorToast("An error occurred while saving basic details. Please try again.");
+      showErrorToast(
+        "An error occurred while saving basic details. Please try again."
+      );
     }
   };
 
@@ -271,11 +239,8 @@ function BasicInfo() {
             placeholder="Enter Last Name"
             className=" mt-2"
             inputClassName="h-9 rounded-md"
-            register={register(`last_name`, {
-              required: "Last Name is required",
-            })}
+            register={register(`last_name`, {})}
             error={errors?.last_name}
-            required
           />
         </div>
       </div>
@@ -311,10 +276,14 @@ function BasicInfo() {
           <InputField
             name="Email"
             placeholder="Enter Email"
-            className=" mt-3"
+            className="mt-3"
             inputClassName="h-9 rounded-md"
-            register={register(`empEmail`, {
+            register={register("empEmail", {
               required: "Email is required",
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                message: "Please enter a valid email address",
+              },
             })}
             error={errors?.empEmail}
             required
@@ -327,15 +296,26 @@ function BasicInfo() {
             type="password"
             className="mt-3"
             inputClassName="h-9 rounded-md"
-            register={register(`password`, {
-              required: "password is required",
+            register={register("password", {
+              required: "Password is required",
+              validate: (value) => {
+                if (value.length < 6) {
+                  return "Password must be at least 6 characters long.";
+                }
+                if (
+                  !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}:;.,?]).{6,}$/.test(
+                    value
+                  )
+                ) {
+                  return "Password must include an uppercase letter, a lowercase letter, a digit, and a special character."; // Complexity message
+                }
+                return true;
+              },
             })}
             error={errors?.password}
-            
           />
         </div>
       </div>
-      {/* $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ */}
 
       <div className="bg-[#fcf2fe] mb-3 mt-4 py-1.5 px-1">
         <h2 className=" text-md font-semibold transition-all duration-300">
@@ -440,13 +420,12 @@ function BasicInfo() {
               watch("dateOfJoining") ? new Date(watch("dateOfJoining")) : null
             }
             onChange={(date) => {
-              const formattedDate = date ? format(date, "dd-MMM-yyyy") : null; 
+              const formattedDate = date ? format(date, "dd-MMM-yyyy") : null;
               setValue("dateOfJoining", formattedDate, {
                 shouldValidate: true,
               });
             }}
-          
-            dateFormat="dd-MMM-yyyy" 
+            dateFormat="dd-MMM-yyyy"
             placeholderText="Select Joining Date"
             className="block w-full border rounded-md px-2 py-1.5"
             // required
@@ -627,12 +606,12 @@ function BasicInfo() {
                 watch("dateOfBirth") ? new Date(watch("dateOfBirth")) : null
               }
               onChange={(date) => {
-                const formattedDate = date ? format(date, "dd-MMM-yyyy") : null; 
+                const formattedDate = date ? format(date, "dd-MMM-yyyy") : null;
                 setValue("dateOfBirth", formattedDate, {
                   shouldValidate: true,
                 });
               }}
-              dateFormat="dd-MMM-yyyy" 
+              dateFormat="dd-MMM-yyyy"
               placeholderText="Select Birth Date"
               className="block w-full border rounded-md px-2 py-1.5"
               required
@@ -652,9 +631,11 @@ function BasicInfo() {
               <RadioButton
                 name="gender"
                 options={radioOptions}
-                onChange={handleRadioChange}
-                //  selectedValue={selectedGender}
-                selectedValue={gender}
+                selectedValue={basicDetails.gender}
+                onChange={(value) => {
+                  dispatch(setGender(value)); 
+                  setValue("gender", value); 
+                }}
               />
             </div>
           </div>

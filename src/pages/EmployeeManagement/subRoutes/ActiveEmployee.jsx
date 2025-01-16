@@ -4,16 +4,22 @@ import TableLayout from "../../../layout/TableLayout";
 import FilterForm from "../../../components/FilterForm";
 import FilterToggle from "../../../components/FilterHideShow";
 import {
-  setFilteredData
- 
+  setFilteredData,
+  openModal, closeModal 
 } from "../../../redux/reducers/hrReducer";
+import { useNavigate } from "react-router-dom";
+import { showSuccessToast } from "../../../Utils/ToastsUtils";
+import ConfirmModalPopup from "../../../Popups/ConfirmModalPopup";
 
 const ActiveEmployee = () => {
   const dispatch = useDispatch();
-  const { attendanceData, filteredData, } = useSelector(
+  const { attendanceData, filteredData, isModalOpen  } = useSelector(
     (state) => state.hrApp
   );
-
+  
+  const navigate = useNavigate();
+  
+  const [deleteItem, setDeleteItem] = React.useState(null);
   const [showFilters, setShowFilters] = React.useState(false);
 
   const locationOption = [
@@ -78,11 +84,29 @@ const ActiveEmployee = () => {
 
   const callEditClick = (item) => {
     console.log("Edit attendance:", item);
-    // navigate(`/employee/${item.id}/edit`);
+    navigate(`/employee/edit/${item.id}`);
   };
 
   const callDeleteClick = (item) => {
-    console.log("Delete attendance:", item);
+    setDeleteItem(item);
+    dispatch(openModal());
+  };
+
+  const handleDeleteConfirm = () => {
+    if (deleteItem) {
+      const updatedData = attendanceData.filter(
+        (item) => item.id !== deleteItem.id
+      );
+      dispatch(setFilteredData(updatedData)); 
+      setDeleteItem(null); 
+      dispatch(closeModal()); 
+      showSuccessToast("Employee deleted successfully!");
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteItem(null); 
+    dispatch(closeModal()); 
   };
 
 
@@ -98,7 +122,7 @@ const ActiveEmployee = () => {
   return (
     <div>
       <FilterToggle showFilters={showFilters} setShowFilters={setShowFilters} />
-
+    
       {showFilters && (
         <FilterForm
           EmployeeName={
@@ -113,6 +137,7 @@ const ActiveEmployee = () => {
           handleReset={handleReset}
         />
       )}
+  
 
       <TableLayout
 
@@ -133,7 +158,16 @@ const ActiveEmployee = () => {
         }}
         links={{}}
       />
-
+ <ConfirmModalPopup
+        isOpen={isModalOpen}
+        message={
+          <>
+            Are you sure you want to delete <strong>{deleteItem?.name}</strong> ?
+          </>
+        }
+        onSubmit={handleDeleteConfirm}
+        onCancel={handleDeleteCancel}
+      />
       
     </div>
   );

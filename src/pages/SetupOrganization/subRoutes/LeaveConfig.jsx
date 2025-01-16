@@ -1,9 +1,16 @@
 import React, { useState } from "react";
 import TableLayout from "../../../layout/TableLayout";
 import SimpleModal from "../../../Popups/SimpleModal";
+import { openModal, closeModal } from "../../../redux/reducers/hrReducer";
+import { showSuccessToast } from "../../../Utils/ToastsUtils";
+import ConfirmModalPopup from "../../../Popups/ConfirmModalPopup";
+import { useDispatch, useSelector } from "react-redux";
 
 const LeaveConfig = () => {
+  const dispatch = useDispatch();
 
+  const { isModalOpen } = useSelector((state) => state.hrApp);
+  const [deleteItem, setDeleteItem] = React.useState(null);
   const dummyData = [
     {
       id: 1,
@@ -22,12 +29,27 @@ const LeaveConfig = () => {
   );
 
  
+const callDeleteClick = (item) => {
+      setDeleteItem(item);
+      dispatch(openModal());
+    };
+  
+    const handleDeleteConfirm = () => {
+      if (deleteItem) {
+        setDeleteItem(null);
+        dispatch(closeModal());
+        showSuccessToast("Leave Config deleted successfully!");
+        console.log("Deleted successfully",deleteItem);
+        
+      }
+    };
+  
+    const handleDeleteCancel = () => {
+      setDeleteItem(null);
+      dispatch(closeModal());
+    };
 
-  const callDeleteClick = (item) => {
-    console.log("Delete attendance:", item);
-  };
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalSimpleOpen, setIsModalOpen] = useState(false);
 
   const openSettingsModal = () => {
     setIsModalOpen(true);
@@ -55,9 +77,15 @@ const LeaveConfig = () => {
         links={{}}
       />
       <SimpleModal
-        isOpen={isModalOpen}
+        isOpen={isModalSimpleOpen}
         onClose={closeSettingsModal}
         title="Leave Settings"
+      />
+       <ConfirmModalPopup
+        isOpen={isModalOpen}
+        message={"Are you sure you want to delete this item ?"}
+        onSubmit={handleDeleteConfirm}
+        onCancel={handleDeleteCancel}
       />
     </div>
   );

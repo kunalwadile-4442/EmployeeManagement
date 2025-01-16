@@ -138,24 +138,37 @@ table th:first-child{
 .SalarySection{
   background: linear-gradient(180deg, #E8EFFF 0%, #F9FBFF 100%);
 }
-
-/* Custom styling for toast */
-/* .custom-toast {
-  border-radius: 8px;
-  padding: 8px;
-  text-align: center;
-} */
-
-/* Custom styling for toast */
 .custom-toast {
-  border-radius: 4px; /* Slightly smaller rounded corners */
-  padding: 6px 12px; /* Smaller padding to reduce height */
-  font-size: 12px; /* Smaller font size */
+  border-radius: 4px; 
+  padding: 6px 12px; 
+  font-size: 12px; 
   text-align: center;
-  max-width: 300px; /* Limit the width to avoid very large toasts */
-  word-wrap: break-word; /* Ensure text wraps if it's too long */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow for better visibility */
-}
+  max-width: 300px; 
+  word-wrap: break-word; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
 
 
 
+  .filter-transition-enter {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  
+  .filter-transition-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 300ms, transform 300ms;
+  }
+  
+  .filter-transition-exit {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .filter-transition-exit-active {
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: opacity 300ms, transform 300ms;
+  }
+  

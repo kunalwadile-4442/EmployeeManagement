@@ -1,0 +1,11 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Head of the Employee -->
+  <circle cx="12" cy="8" r="3" stroke="#565367" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Body of the Employee -->
+  <path d="M12 11C9.33 11 7 13.33 7 16V18H17V16C17 13.33 14.67 11 12 11Z" stroke="#565367" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Small group icon (team members) -->
+  <circle cx="5" cy="9" r="2" stroke="#565367" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="19" cy="9" r="2" stroke="#565367" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M3 12C3 10.67 4.33 9 5 9C5.67 9 7 10.67 7 12" stroke="#565367" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M21 12C21 10.67 19.67 9 19 9C18.33 9 17 10.67 17 12" stroke="#565367" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

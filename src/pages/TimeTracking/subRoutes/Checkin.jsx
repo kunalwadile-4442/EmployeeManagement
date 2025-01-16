@@ -56,7 +56,7 @@ const Checkin = () => {
   return (
     <div>
       <FilterToggle showFilters={showFilters} setShowFilters={setShowFilters} />
-
+   
       {showFilters && (
         <FilterForm
           EmployeeName={attendanceData.map((item) => ({
@@ -69,6 +69,7 @@ const Checkin = () => {
           handleSearch={handleSearch}
         />
       )}
+    
 
       <TableLayout
         columnKey={columnKey}

@@ -141,6 +141,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import InputField from "../../../components/InputField";
 import DropdownSelectNew from "../../../components/DropdownSelectNew";
+import { showSuccessToast } from "../../../Utils/ToastsUtils";
 
 function DepartmentForm({ id }) {
   const dispatch = useDispatch();
@@ -180,11 +181,14 @@ function DepartmentForm({ id }) {
     dispatch(setDesignationFormData({ [name]: value }));
   };
 
-  const onSubmit = (data) => {
-    console.log("Submitted Data:", data);
-    dispatch(resetDesignationFormData());
-    navigate("/organization/departments")
-  };
+   const onSubmit = (data) => {
+          console.log("Submitted Data:", data);
+          showSuccessToast("Form Submitted Successfully!");
+          dispatch(resetDesignationFormData());
+                setTimeout(() => {
+                  navigate("/organization/departments")
+              }, 500); 
+      };
 
   return (
    

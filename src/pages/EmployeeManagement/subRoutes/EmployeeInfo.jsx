@@ -3,16 +3,17 @@ import { useDispatch, useSelector } from "react-redux";
 import TableLayout from "../../../layout/TableLayout";
 import FilterForm from "../../../components/FilterForm";
 import FilterToggle from "../../../components/FilterHideShow";
-import { setFilteredData } from "../../../redux/reducers/hrReducer";
+import { setFilteredData,openModal, closeModal } from "../../../redux/reducers/hrReducer";
 import { useNavigate } from "react-router-dom";
+// import {  } from "../../../redux/reducers/hrReducer";
+import { showSuccessToast } from "../../../Utils/ToastsUtils";
+import ConfirmModalPopup from "../../../Popups/ConfirmModalPopup";
 
 const EmployeeInfo = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { attendanceData, filteredData } = useSelector(
-    (state) => state.hrApp
-  );
-
+  const { attendanceData, filteredData, isModalOpen } = useSelector((state) => state.hrApp);
+  const [deleteItem, setDeleteItem] = React.useState(null);
   const [showFilters, setShowFilters] = React.useState(false);
 
   const locationOption = [
@@ -38,8 +39,8 @@ const EmployeeInfo = () => {
 
   const employeeStatusOption = [
     { value: "Active", label: "Active" },
-    { value: "Inactive", label: "Inactive" },
-    { value: "On Leave", label: "On Leave" },
+    { value: "Terminated", label: "Terminated" },
+    { value: "Deceased", label: "Deceased" },
     { value: "Resigned", label: "Resigned" },
   ];
 
@@ -85,7 +86,25 @@ const EmployeeInfo = () => {
   };
 
   const callDeleteClick = (item) => {
-    console.log("Delete attendance:", item);
+    setDeleteItem(item);
+    dispatch(openModal());
+  };
+
+  const handleDeleteConfirm = () => {
+    if (deleteItem) {
+      const updatedData = attendanceData.filter(
+        (item) => item.id !== deleteItem.id
+      );
+      dispatch(setFilteredData(updatedData)); 
+      setDeleteItem(null); 
+      dispatch(closeModal()); 
+      showSuccessToast("Employee deleted successfully!");
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteItem(null); 
+    dispatch(closeModal()); 
   };
 
   const addNewEmp = () => {
@@ -107,6 +126,7 @@ const EmployeeInfo = () => {
     <div>
       <FilterToggle showFilters={showFilters} setShowFilters={setShowFilters} />
 
+    
       {showFilters && (
         <FilterForm
           EmployeeName={attendanceData.map((item) => ({
@@ -142,174 +162,18 @@ const EmployeeInfo = () => {
         links={{}}
       />
 
-      
+      <ConfirmModalPopup
+        isOpen={isModalOpen}
+        message={
+          <>
+            Are you sure you want to delete <strong>{deleteItem?.name}</strong> ?
+          </>
+        }
+        onSubmit={handleDeleteConfirm}
+        onCancel={handleDeleteCancel}
+      />
     </div>
   );
 };
 
 export default EmployeeInfo;
-
-// import React, { useState } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import TableLayout from "../../layout/TableLayout";
-// import FilterForm from "../../components/FilterForm";
-// import FilterToggle from "../../components/FilterHideShow";
-// import {
-//   setFilteredData,
-//   openModal,
-//   closeModal,
-// } from "../../redux/reducers/hrReducer";
-// import Modal from "../../Popups/Modal";
-
-// const EmployeeInfo = () => {
-//   const dispatch = useDispatch();
-//   const { attendanceData, filteredData, isModalOpen, modalData } = useSelector(
-//     (state) => state.hrApp
-//   );
-
-//   const [showFilters, setShowFilters] = useState(false);
-
-//   const handleSearch = (filters) => {
-//     let filtered = attendanceData;
-
-//     if (filters.emp_first_name) {
-//       filtered = filtered.filter((item) =>
-//         item.name.toLowerCase().includes(filters.emp_first_name.toLowerCase())
-//       );
-//     }
-
-//     if (filters.type_name) {
-//       filtered = filtered.filter(
-//         (item) => item.status.toLowerCase() === filters.type_name.toLowerCase()
-//       );
-//     }
-
-//     if (filters.location) {
-//       filtered = filtered.filter(
-//         (item) => item.location.toLowerCase() === filters.location.toLowerCase()
-//       );
-//     }
-
-//     if (filters.dept_name) {
-//       filtered = filtered.filter(
-//         (item) => item.department.toLowerCase() === filters.dept_name.toLowerCase()
-//       );
-//     }
-
-//     if (filters.desi_name) {
-//       filtered = filtered.filter(
-//         (item) => item.designation.toLowerCase() === filters.desi_name.toLowerCase()
-//       );
-//     }
-
-//     if (filters.emp_status) {
-//       filtered = filtered.filter(
-//         (item) => item.status.toLowerCase() === filters.emp_status.toLowerCase()
-//       );
-//     }
-
-//     if (filters.from_date && filters.to_date) {
-//       const fromDate = new Date(filters.from_date);
-//       const toDate = new Date(filters.to_date);
-
-//       filtered = filtered.filter((item) => {
-//         const itemDate = new Date(item.date);
-//         return itemDate >= fromDate && itemDate <= toDate;
-//       });
-//     }
-
-//     dispatch(setFilteredData(filtered));
-//   };
-
-//   const handleReset = () => {
-//     dispatch(setFilteredData(attendanceData));
-//   };
-
-//   const handleClickWhoCheckLate = () => {
-//     const tableData = [
-//       ["John Doe", "2025-01-01"],
-//       ["Jane Smith", "2025-01-02"],
-//       ["Mark Lee", "2025-01-03"],
-//       ["Alice Brown", "2025-01-04"],
-//       ["Robert White", "2025-01-05"],
-//     ];
-//     dispatch(
-//       openModal({
-//         title: "Late CheckIn",
-//         tableHeaders: ["Full Name", "In Date"],
-//         tableData: tableData,
-//       })
-//     );
-//   };
-
-//   const handleCloseModal = () => {
-//     dispatch(closeModal());
-//   };
-
-//   const addNewEmp = () => {
-//     console.log("addNewEmp");
-//   };
-
-//   const columnKey = ["Name", "Date", "Status"];
-
-//   return (
-//     <div>
-//       <FilterToggle showFilters={showFilters} setShowFilters={setShowFilters} />
-
-//       {showFilters && (
-//         <FilterForm
-//           EmployeeName={attendanceData.map((item) => ({
-//             value: item.name,
-//             label: item.name,
-//           }))}
-//           Locations={attendanceData.map((item) => ({
-//             value: item.location,
-//             label: item.location,
-//           }))}
-//           Department={attendanceData.map((item) => ({
-//             value: item.department,
-//             label: item.department,
-//           }))}
-//           Designation={attendanceData.map((item) => ({
-//             value: item.designation,
-//             label: item.designation,
-//           }))}
-//           EmpStatus={attendanceData.map((item) => ({
-//             value: item.status,
-//             label: item.status,
-//           }))}
-//           handleSearch={handleSearch}
-//           handleReset={handleReset}
-//         />
-//       )}
-
-//       <TableLayout
-//         columnKey={columnKey}
-//         dataItem={filteredData.length > 0 ? filteredData : attendanceData}
-//         renderBody={(item) => (
-//           <>
-//             <td>{item.name}</td>
-//             <td>{item.date}</td>
-//             <td>{item.status}</td>
-//           </>
-//         )}
-//         serial_no={true}
-//         edit={true}
-//         isAdd={true}
-//         isDelete={true}
-//         title="+ Add New Employee"
-//         handleOpen={addNewEmp}
-//       />
-
-//       <Modal
-//         isOpen={isModalOpen}
-//         onClose={handleCloseModal}
-//         title={modalData?.title}
-//         tableHeaders={modalData?.tableHeaders || []}
-//         tableData={modalData?.tableData || []}
-//       />
-//     </div>
-//   );
-// };
-
-// export default EmployeeInfo;

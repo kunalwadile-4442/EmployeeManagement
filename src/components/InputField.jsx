@@ -162,8 +162,11 @@ const InputField = (prop) => {
   const renderTextarea = (field) => {
     const onChange = (e) => {
       if (prop?.control) {
+        console.log('onChange',e.target.value);
+        
         field.onChange(e.target.value);
-      } else if (field?.onChange) {
+      }
+       else if (field?.onChange) {
         field.onChange(e);
       }
       if (prop?.onChange) {
@@ -197,7 +200,7 @@ const InputField = (prop) => {
             rows={prop?.rows || 2}
             value={field?.value || prop?.value}
             disabled={prop.disabled}
-          />
+          >{field?.value || prop?.value}</textarea>
           {prop?.rightLabel && (
             <span
               className="right-label ms-auto cursor-pointer"

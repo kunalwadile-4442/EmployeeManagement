@@ -1,9 +1,17 @@
 import React from "react";
 import TableLayout from "../../../layout/TableLayout";
+import { openModal, closeModal } from "../../../redux/reducers/hrReducer";
 import { useNavigate } from "react-router-dom";
+import { showSuccessToast } from "../../../Utils/ToastsUtils";
+import ConfirmModalPopup from "../../../Popups/ConfirmModalPopup";
+import { useDispatch, useSelector } from "react-redux";
 
 const Departments = () => {
-  const navigate = useNavigate();
+ const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { isModalOpen } = useSelector((state) => state.hrApp);
+  const [deleteItem, setDeleteItem] = React.useState(null);
 
   const dummyData = [
     {
@@ -53,8 +61,25 @@ const Departments = () => {
   };
 
   const callDeleteClick = (item) => {
-    console.log("Delete attendance:", item);
-  };
+      setDeleteItem(item);
+      dispatch(openModal());
+    };
+  
+    const handleDeleteConfirm = () => {
+      if (deleteItem) {
+        setDeleteItem(null);
+        dispatch(closeModal());
+        showSuccessToast("Department deleted successfully!");
+      }
+    };
+  
+    const handleDeleteCancel = () => {
+      setDeleteItem(null);
+      dispatch(closeModal());
+    };
+  // const callDeleteClick = (item) => {
+  //   console.log("Delete attendance:", item);
+  // };
 
   return (
     <div>
@@ -74,6 +99,12 @@ const Departments = () => {
           height: "calc(100vh - 10px)", 
         }}
         links={{}}
+      />
+      <ConfirmModalPopup
+        isOpen={isModalOpen}
+        message={"Are you sure you want to delete this item ?"}
+        onSubmit={handleDeleteConfirm}
+        onCancel={handleDeleteCancel}
       />
     </div>
   );

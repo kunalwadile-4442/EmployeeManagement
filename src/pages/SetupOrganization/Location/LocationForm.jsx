@@ -10,6 +10,8 @@ import { useNavigate } from "react-router-dom";
 import InputField from "../../../components/InputField";
 import { useForm } from "react-hook-form";
 import DropdownSelectNew from "../../../components/DropdownSelectNew";
+import { showSuccessToast } from "../../../Utils/ToastsUtils";
+
 
 function LocationForm({ id }) {
   const dispatch = useDispatch();
@@ -102,11 +104,15 @@ function LocationForm({ id }) {
     dispatch(setLocationFormData({ [name]: value }));
   };
 
+ 
   const onSubmit = (data) => {
     console.log("Submitted Data:", data);
+    showSuccessToast("Form Submitted Successfully!");
     dispatch(resetLocationFormData());
-    navigate("/organization/locations")
-  };
+          setTimeout(() => {
+            navigate("/organization/locations")
+        }, 500); 
+};
 
   return (
     // <AuthenticatedLayout

@@ -1,10 +1,17 @@
 import React from "react";
 import TableLayout from "../../../layout/TableLayout";
+import { openModal, closeModal } from "../../../redux/reducers/hrReducer";
 import { useNavigate } from "react-router-dom";
+import { showSuccessToast } from "../../../Utils/ToastsUtils";
+import ConfirmModalPopup from "../../../Popups/ConfirmModalPopup";
+import { useDispatch, useSelector } from "react-redux";
 
 const Location = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
+  const { isModalOpen } = useSelector((state) => state.hrApp);
+  const [deleteItem, setDeleteItem] = React.useState(null);
   const dummyData = [
     {
       id: 1,
@@ -76,14 +83,32 @@ const Location = () => {
   };
 
   const callDeleteClick = (item) => {
-    console.log("Delete attendance:", item);
+    setDeleteItem(item);
+    dispatch(openModal());
   };
+
+  const handleDeleteConfirm = () => {
+    if (deleteItem) {
+      setDeleteItem(null);
+      dispatch(closeModal());
+      showSuccessToast("Location deleted successfully!");
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteItem(null);
+    dispatch(closeModal());
+  };
+
+  // const callDeleteClick = (item) => {
+  //   console.log("Delete attendance:", item);
+  // };
 
   return (
     <div>
       <TableLayout
         columnKey={columnKey}
-        dataItem={dummyData} // Pass the static dummy data here
+        dataItem={dummyData}
         renderBody={renderBody}
         serial_no={true}
         edit={true}
@@ -94,9 +119,16 @@ const Location = () => {
         callEditClick={callEditClick}
         callDeleteClick={callDeleteClick}
         style={{
-          height: "calc(100vh - 10px)", 
+          height: "calc(100vh - 10px)",
         }}
         links={{}}
+      />
+
+      <ConfirmModalPopup
+        isOpen={isModalOpen}
+        message={"Are you sure you want to delete this item ?"}
+        onSubmit={handleDeleteConfirm}
+        onCancel={handleDeleteCancel}
       />
     </div>
   );

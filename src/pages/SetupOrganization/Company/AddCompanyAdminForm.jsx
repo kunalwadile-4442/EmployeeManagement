@@ -138,6 +138,7 @@ import FormLayout from "../../../layout/FormLayout";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import InputField from "../../../components/InputField";
+import { showSuccessToast } from "../../../Utils/ToastsUtils";
 
 function AddCompanyAdminForm({ id }) {
   const dispatch = useDispatch();
@@ -168,12 +169,16 @@ function AddCompanyAdminForm({ id }) {
     }
   }, [id, dispatch, reset]);
 
-  const onSubmit = (data) => {
+   const onSubmit = (data) => {
     console.log("Submitted Data:", data);
-    dispatch(resetCompanyAdminFormData());
-    navigate("/organization/company/list");
-  };
+      showSuccessToast("Form Submitted Successfully!");
+      dispatch(resetCompanyAdminFormData());
+        setTimeout(() => {
+          navigate("/organization/company/list");
+        }, 500); 
+    };
 
+ 
   return (
     <FormLayout
       content={{ submit: "Submit" }}

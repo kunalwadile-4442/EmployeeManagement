@@ -8,14 +8,17 @@ import {
   openModal,
   closeModal,
 } from "../../../redux/reducers/hrReducer";
-import Modal from "../../../Popups/Modal";
+import { useNavigate } from "react-router-dom";
+import { showSuccessToast } from "../../../Utils/ToastsUtils";
+import ConfirmModalPopup from "../../../Popups/ConfirmModalPopup";
 
 const PendingLeave = () => {
   const dispatch = useDispatch();
-  const { attendanceData, filteredData, isModalOpen, modalData } = useSelector(
+  const { attendanceData, filteredData, isModalOpen } = useSelector(
     (state) => state.hrApp
   );
 
+  const [deleteItem, setDeleteItem] = React.useState(null);
   const [showFilters, setShowFilters] = React.useState(false);
 
   const handleSearch = (filters) => {
@@ -36,26 +39,6 @@ const PendingLeave = () => {
     dispatch(setFilteredData(filtered));
   };
 
-  const handleClickWhoCheckLate = () => {
-    console.log("handleWhoNotSent clicked");
-    const tableData = [
-      ["John Doe", "2025-01-01"],
-      ["Jane Smith", "2025-01-02"],
-      ["Mark Lee", "2025-01-03"],
-      ["Alice Brown", "2025-01-04"],
-      ["Robert White", "2025-01-05"],
-    ];
-    dispatch(
-      openModal({
-        title: "Late CheckIn",
-        tableHeaders: ["Full Name", "In Date"],
-        tableData: tableData,
-      })
-    );
-  };
-  const handleCloseModal = () => {
-    dispatch(closeModal());
-  };
   const handleReset = () => {
     dispatch(setFilteredData(attendanceData));
   };
@@ -64,8 +47,27 @@ const PendingLeave = () => {
     console.log("Edit attendance:", item);
   };
 
+ 
   const callDeleteClick = (item) => {
-    console.log("Delete attendance:", item);
+    setDeleteItem(item);
+    dispatch(openModal());
+  };
+
+  const handleDeleteConfirm = () => {
+    if (deleteItem) {
+      const updatedData = attendanceData.filter(
+        (item) => item.id !== deleteItem.id
+      );
+      dispatch(setFilteredData(updatedData));
+      setDeleteItem(null);
+      dispatch(closeModal());
+      showSuccessToast("Employee deleted successfully!");
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteItem(null);
+    dispatch(closeModal());
   };
 
   const callViewClick = (item) => {
@@ -78,6 +80,7 @@ const PendingLeave = () => {
     <div>
       <FilterToggle showFilters={showFilters} setShowFilters={setShowFilters} />
 
+  
       {showFilters && (
         <FilterForm
           EmployeeName={attendanceData.map((item) => ({
@@ -96,11 +99,11 @@ const PendingLeave = () => {
             { value: "Accepted", label: "Accepted" },
             { value: "Cancelled", label: "Cancelled" },
           ]}
-
           handleSearch={handleSearch}
           handleReset={handleReset}
         />
       )}
+
 
       <TableLayout
         columnKey={columnKey}
@@ -126,13 +129,16 @@ const PendingLeave = () => {
         }}
         links={{}}
       />
-
-      <Modal
+      <ConfirmModalPopup
         isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        title={modalData?.title}
-        tableHeaders={modalData?.tableHeaders || []}
-        tableData={modalData?.tableData || []}
+        message={
+          <>
+            Are you sure you want to delete <strong>{deleteItem?.name}</strong>{" "}
+            ?
+          </>
+        }
+        onSubmit={handleDeleteConfirm}
+        onCancel={handleDeleteCancel}
       />
     </div>
   );

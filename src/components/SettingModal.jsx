@@ -231,6 +231,8 @@ import {
   setStartDate,
   setEndDate,
 } from "../redux/reducers/settingModalReducer";
+import { showSuccessToast } from "../Utils/ToastsUtils";
+
 
 const SettingModal = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
@@ -269,6 +271,7 @@ const SettingModal = ({ isOpen, onClose }) => {
 
   const handleSave = () => {
     console.log("Saved Week Definition:", weekDefinition);
+    showSuccessToast("Date Save Successfully");
     onClose();
   };
 
@@ -288,7 +291,7 @@ const SettingModal = ({ isOpen, onClose }) => {
         <hr className="mt-2 mb-2" />
         <h4 className="font-md font-semibold ">Weekend definition</h4>
         <Scrollbar style={{ height: "calc(100vh - 200px)" }}>
-          <div className="mt-4 overflow-x-auto">
+          <div className="mt-4 overflow-x-auto mr-3">
             <table className="w-full table-auto border border-gray-300">
               <thead className="text-sm">
                 <tr>

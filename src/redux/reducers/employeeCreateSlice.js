@@ -1,48 +1,15 @@
-// import { createSlice } from "@reduxjs/toolkit";
-
-// const initialState = {
-//   empFirstName: "",
-//   empLastName: "",
-//   empEmail: "",
-//   dateOfBirth: null,
-//   empCode: "F2012",
-//   male: true,
-//   female: false,
-//   permanentAdd: "",
-//   presentAdd: "",
-//   empProfilePic: "",
-//   dateOfJoining: null,
-//   empMobileNumber: "",
-// };
-
-// const employeeCreateSlice = createSlice({
-//   name: "employeeCreate",
-//   initialState,
-//   reducers: {
-//     setFormData: (state, action) => {
-//       return { ...state, ...action.payload };
-//     },
-//     resetFormData: () => initialState,
-//   },
-// });
-
-// export const { setFormData, resetFormData } = employeeCreateSlice.actions;
-// export default employeeCreateSlice.reducer;
-
-
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  first_name: "",
+  first_name: "kunal",
   last_name: "",
   email: "",
   dateOfBirth: null,
-  male: true,
-  female: false,
   permanentAdd: "",
   presentAdd: "",
+  gender:"male",
   empProfilePic: "",
-  empCode: "F9289",
+  // empCode: "F9289",
   dateOfJoining: null,
   empMobileNumber: "",
 };
@@ -55,9 +22,12 @@ const employeeCreateSlice = createSlice({
       return { ...state, ...action.payload };
     },
     resetFormData: () => initialState,
+    setGender: (state, action) => {
+      state.gender = action.payload;
+    },
   },
 });
 
-export const { setFormData, resetFormData } = employeeCreateSlice.actions;
+export const { setFormData, resetFormData ,setGender} = employeeCreateSlice.actions;
 
 export default employeeCreateSlice.reducer;

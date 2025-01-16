@@ -36,12 +36,11 @@ const LeaveManagementLayout = () => {
           >
             {key === "pending" && "Pending Leave"}
             {key === "cancelled" && "Cancelled Leave"}
-            {key === "approve" && "Approve Leave"}
+            {key === "approve" && "Approved Leave"}
           </Link>
         ))}
       </div>
 
-      {/* Tab Content */}
       <div className="mt-2">
         <Outlet />
       </div>

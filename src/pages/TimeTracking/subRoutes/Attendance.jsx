@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import TableLayout from "../../../layout/TableLayout";
 import FilterForm from "../../../components/FilterForm";
 import FilterToggle from "../../../components/FilterHideShow";
+
 import {
   setFilteredData,
   openModal,
@@ -30,7 +31,6 @@ const Attendance = () => {
 
     console.log("selected Filters",filters)
     console.log("filtered Data",filtered)
-
     dispatch(setFilteredData(filtered));
   };
 
@@ -65,15 +65,18 @@ const Attendance = () => {
   const callDeleteClick = (item) => {
     console.log("Delete attendance:", item);
   };
-
- 
-
   const columnKey = ["Name", "Date", "Status"];
 
   return (
     <div>
       <FilterToggle showFilters={showFilters} setShowFilters={setShowFilters} />
 
+      <div
+  className={`transition-all duration-500 ease-in-out = ${
+    showFilters ? " opacity-100 translate-y-0" : "opacity-0 -translate-y-5"
+  }`}
+  
+>
       {showFilters && (
         <FilterForm
           EmployeeName={attendanceData.map((item) => ({
@@ -86,6 +89,7 @@ const Attendance = () => {
           handleReset={handleReset}
         />
       )}
+     </div>
 
       <TableLayout
         columnKey={columnKey}

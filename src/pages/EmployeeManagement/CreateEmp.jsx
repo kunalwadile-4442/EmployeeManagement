@@ -234,225 +234,211 @@ import { useForm } from "react-hook-form";
 import {
   setFormData,
   resetFormData,
+  setGender
 } from "../../redux/reducers/employeeCreateSlice";
 import FormLayout from "../../layout/FormLayout";
-import Checkbox from "../../components/Checkbox";
 import ReactDatePicker from "react-datepicker";
 import InputLabel from "../../components/InputLabel";
 import { useNavigate } from "react-router-dom";
 import InputField from "../../components/InputField";
+import RadioButton from "../../components/RadioButton";
+
 
 function CreateEmp() {
   const dispatch = useDispatch();
   const formData = useSelector((state) => state.employeeCreate);
   const navigate = useNavigate();
-
   const {
     register,
     handleSubmit,
     setValue,
-    watch,
     reset,
     formState: { errors },
   } = useForm({
     defaultValues: formData,
   });
 
-
-
-  const genderMale = watch("male");
-  const genderFemale = watch("female");
+  const genderOptions = [
+    { value: "male", label: "Male" },
+    { value: "female", label: "Female" },
+  ];
 
   const onSubmit = (data) => {
     dispatch(setFormData(data));
     console.log("Submitted Data:", data);
     dispatch(resetFormData());
     reset();
-    navigate("/employee/info")
+    navigate("/employee/info");
   };
 
- const handleDateChange = (name, date) => {
-  setValue(name, date ? date.toISOString().split("T")[0] : null);
-};;
+  const handleDateChange = (name, date) => {
+    setValue(name, date ? date.toISOString().split("T")[0] : null);
+  };
 
   return (
-   
-      <FormLayout
-        content={{
-          submit: "Submit",
-        }}
-        onSubmit={handleSubmit(onSubmit)}
-        className="px-4 py-2 bg-white rounded-md"
-        style={{ height: 500 }}
-        back
-      >
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="mb-4">
-            <InputField
-              name="First Name"
-              placeholder="Enter First Name"
-              className=""
-              inputClassName="h-9 rounded-md"
-              register={register(`first_name`, {
-                required: "First Name is required",
-              })}
-              required
-              error={errors?.first_name}
-            />
-          </div>
-
-          <div className="mb-4">
-            <InputField
-              name="Last Name"
-              placeholder="Enter Last Name"
-              className=""
-              inputClassName="h-9 rounded-md"
-              register={register(`last_name`, {
-                required: "First Last is required",
-              })}
-              required
-              error={errors?.last_name}
-            />
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-4 mb-4">
-          <div>
-            <InputField
-              name="Email Address"
-              placeholder="Enter Email"
-              className=" "
-              inputClassName="h-9 rounded-md"
-              register={register(`email`, {
-                required: "Email is required",
-                pattern: {
-                  value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                  message: "Enter a valid email address",
-                },
-              })}
-              required
-              error={errors?.email}
-            />
-          </div>
-
-          <div>
-            <InputLabel htmlFor="dateOfBirth" value="Date of Birth" />
-            <ReactDatePicker
-              selected={
-                formData.dateOfBirth ? new Date(formData.dateOfBirth) : null
-              }
-              onChange={(date) => handleDateChange("dateOfBirth", date)}
-              dateFormat="yyyy/MM/dd"
-              placeholderText="Select Birth Date"
-              className=" block w-full border border-gray-300 rounded-md px-2 py-1.5"
-            />
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-4 mb-4">
-          <div className="flex flex-row items-center gap-4">
-            <InputLabel htmlFor="gender" value="Gender" />
-            <div className="flex items-center gap-4">
-              <Checkbox
-                id="male"
-                {...register("male")}
-                checked={genderMale}
-                onChange={(e) => setValue("male", e.target.checked)}
-              />
-              <InputLabel htmlFor="male" value="Male" />
-
-              <Checkbox
-                id="female"
-                {...register("female")}
-                checked={genderFemale}
-                onChange={(e) => setValue("female", e.target.checked)}
-              />
-              <InputLabel htmlFor="female" value="Female" />
-            </div>
-          </div>
-          <div>
-            <InputField
-              name="Mobile Number"
-              placeholder="Enter Mobile Number"
-              className=" "
-              inputClassName="h-9 rounded-md"
-              register={register(`empMobileNumber`, {
-                required: "Mobile number is required",
-                pattern: {
-                  value: /^[0-9]{10}$/,
-                  message: "Enter a valid 10-digit mobile number",
-                },
-              })}
-              required
-              error={errors?.empMobileNumber}
-            />
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="mb-4">
+    <FormLayout
+      content={{
+        submit: "Submit",
+      }}
+      onSubmit={handleSubmit(onSubmit)}
+      className="px-4 py-2 bg-white rounded-md"
+      style={{ height: 500 }}
+      back
+    >
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="mb-4">
           <InputField
-              name="Profile Picture"
-              placeholder="Choose Profile Picture"
-              inputClassName="h-9 rounded-md"
-              type="file"
-              register={register(`empProfilePic`)}
-            />
-           
-          </div>
+            name="First Name"
+            placeholder="Enter First Name"
+            className=""
+            inputClassName="h-9 rounded-md"
+            register={register(`first_name`, {
+              required: "First Name is required",
+            })}
+            required
+            error={errors?.first_name}
+          />
+        </div>
 
-          <div className="mb-4">
+        <div className="mb-4">
+          <InputField
+            name="Last Name"
+            placeholder="Enter Last Name"
+            className=""
+            inputClassName="h-9 rounded-md"
+            register={register(`last_name`, {
+              required: "First Last is required",
+            })}
+            required
+            error={errors?.last_name}
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4 mb-4">
+        <div>
+          <InputField
+            name="Email Address"
+            placeholder="Enter Email"
+            className=" "
+            inputClassName="h-9 rounded-md"
+            register={register(`email`, {
+              required: "Email is required",
+              pattern: {
+                value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                message: "Enter a valid email address",
+              },
+            })}
+            required
+            error={errors?.email}
+          />
+        </div>
+
+        <div>
+          <InputLabel htmlFor="dateOfBirth" value="Date of Birth" />
+          <ReactDatePicker
+            selected={
+              formData.dateOfBirth ? new Date(formData.dateOfBirth) : null
+            }
+            onChange={(date) => handleDateChange("dateOfBirth", date)}
+            dateFormat="yyyy/MM/dd"
+            placeholderText="Select Birth Date"
+            className=" block w-full border border-gray-300 rounded-md px-2 py-1.5"
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4 mb-4">
+        <div className="flex flex-row items-center gap-4">
+        <InputLabel htmlFor="gender" value="Gender" />
+        <div className="flex items-center gap-4">
+        <RadioButton
+              name="gender"
+              options={genderOptions}
+              selectedValue={formData.gender} 
+              onChange={(value) => {
+                dispatch(setGender(value)); 
+                setValue("gender", value); 
+              }}
+            />
+        </div>
+        </div>
+        <div>
+          <InputField
+            name="Mobile Number"
+            placeholder="Enter Mobile Number"
+            className=" "
+            inputClassName="h-9 rounded-md"
+            register={register(`empMobileNumber`, {
+              required: "Mobile number is required",
+              pattern: {
+                value: /^[0-9]{10}$/,
+                message: "Enter a valid 10-digit mobile number",
+              },
+            })}
+            required
+            error={errors?.empMobileNumber}
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="mb-4">
+          <InputField
+            name="Profile Picture"
+            placeholder="Choose Profile Picture"
+            inputClassName="h-9 rounded-md"
+            type="file"
+            register={register(`empProfilePic`)}
+          />
+        </div>
+
+        <div className="mb-4">
           <InputLabel htmlFor="dateOfJoining" value="Date of Joining" />
           <ReactDatePicker
-  selected={
-    formData.dateOfJoining ? new Date(formData.dateOfJoining) : null
-  }
-  onChange={(date) => handleDateChange("dateOfJoining", date)}
-  dateFormat="yyyy/MM/dd"
-  placeholderText="Select Joining Date"
-  className=" block w-full border border-gray-300 rounded-md px-2 py-1.5"
-/>
-          
-          </div>
+            selected={
+              formData.dateOfJoining ? new Date(formData.dateOfJoining) : null
+            }
+            onChange={(date) => handleDateChange("dateOfJoining", date)}
+            dateFormat="yyyy/MM/dd"
+            placeholderText="Select Joining Date"
+            className=" block w-full border border-gray-300 rounded-md px-2 py-1.5"
+          />
         </div>
-       
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="mb-4">
-            <InputField
-              name="Permanent Address"
-              placeholder="Permanent Address"
-              inputClassName="rounded-md"
-              useFor="textarea"
-              rows={2}
-              register={register(`permanentAdd`, {
-                required: "Permanent Address required",
-                
-              })}
-              required
-              error={errors?.permanentAdd}
-            />
-           
-          </div>
+      </div>
 
-          <div className="mb-4">
-            <InputField
-              name="Present Address"
-              placeholder="Present Address"
-              inputClassName="rounded-md"
-              useFor="textarea"
-              rows={2}
-              register={register(`presentAdd`, {
-                required: "Present Address required",
-                
-              })}
-              required
-              error={errors?.presentAdd}
-            />
-           
-          
-          </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="mb-4">
+          <InputField
+            name="Permanent Address"
+            placeholder="Permanent Address"
+            inputClassName="rounded-md"
+            useFor="textarea"
+            rows={2}
+            register={register(`permanentAdd`, {
+              required: "Permanent Address required",
+            })}
+            required
+            error={errors?.permanentAdd}
+          />
         </div>
-      </FormLayout>
+
+        <div className="mb-4">
+          <InputField
+            name="Present Address"
+            placeholder="Present Address"
+            inputClassName="rounded-md"
+            useFor="textarea"
+            rows={2}
+            register={register(`presentAdd`, {
+              required: "Present Address required",
+            })}
+            required
+            error={errors?.presentAdd}
+          />
+        </div>
+      </div>
+    </FormLayout>
   );
 }
 

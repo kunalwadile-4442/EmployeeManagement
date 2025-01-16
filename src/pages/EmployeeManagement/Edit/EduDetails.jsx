@@ -19,7 +19,14 @@ const EduDetails = () => {
   const dispatch = useDispatch();
   const eduDetails = useSelector((state) => state.eduDetails.eduDetails);
 
-  const { register, handleSubmit, setValue, watch, reset } = useForm({
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    control,
+    formState: { errors },
+  } = useForm({
     defaultValues: { eduDetails },
   });
 
@@ -27,9 +34,21 @@ const EduDetails = () => {
     try {
       const transformedData = eduDetails.map((row) => ({
         ...row,
-        dateOfCompletion: data[row.id]?.dateOfCompletion,
+        dateOfCompletion:
+          data[row.id]?.dateOfCompletion || row.dateOfCompletion,
+        additionalNotes: data[row.id]?.additionalNotes || row.additionalNotes,
+        interests: data[row.id]?.interests || row.interests,
+        fieldOfStudy: data[row.id]?.fieldOfStudy || row.fieldOfStudy,
+        schoolName: data[row.id]?.schoolName || row.schoolName,
+        degree: data[row.id]?.degree || row.degree,
       }));
-      console.log("Saved Data:", transformedData);
+
+      // Dispatch updated data to Redux
+      transformedData.forEach((row) => {
+        dispatch(updateEduRow({ id: row.id, updatedRow: row }));
+      });
+
+      console.log("Saved Date::", transformedData);
       showSuccessToast("Educational details saved successfully!");
     } catch (error) {
       console.error("Error saving Educational details:", error);
@@ -70,7 +89,9 @@ const EduDetails = () => {
           placeholder="School Name"
           className="mt-1"
           inputClassName="h-9 rounded-md"
-          register={register(`${item.id}.schoolName`)}
+          register={register(`${item.id}.schoolName`, {
+            required: "School Name is required", 
+          })}
           onBlur={(e) =>
             dispatch(
               updateEduRow({
@@ -79,6 +100,8 @@ const EduDetails = () => {
               })
             )
           }
+          error={errors?.[item.id]?.schoolName}
+          required
         />
       </td>
       <td>
@@ -128,9 +151,11 @@ const EduDetails = () => {
       </td>
       <td>
         <InputField
+          control_name={`${item.id}.additionalNotes`}
           placeholder="Add Notes"
           className="mt-1"
           useFor="textarea"
+          control={control}
           rows={1}
           inputClassName="h-9 rounded-md"
           register={register(`${item.id}.additionalNotes`)}
@@ -149,6 +174,8 @@ const EduDetails = () => {
           placeholder="Interests"
           className="mt-1"
           useFor="textarea"
+          control={control}
+          control_name={`${item.id}.interests`}
           rows={1}
           inputClassName="h-9 rounded-md"
           register={register(`${item.id}.interests`)}
@@ -169,7 +196,7 @@ const EduDetails = () => {
           button
           size="md"
           onClick={() => handleDelete(item.id)}
-          className="w-6 h-6" // Fixed size
+          className="w-6 h-6" 
         />
       </td>
     </>
@@ -185,7 +212,7 @@ const EduDetails = () => {
         title="+ Add New Row"
         handleOpen={handleAddNewRow}
         style={{
-          height: "calc(100vh - 10px)", 
+          height: "calc(100vh - 10px)",
         }}
         customBtn={true}
         handleCustomBtnTitle={handleSubmit(onSubmit)}

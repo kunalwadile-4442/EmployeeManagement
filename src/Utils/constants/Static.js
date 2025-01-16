@@ -25,6 +25,8 @@ export const App_url = {
     },
     image: {
       dashboard:`${window.location.origin}/assets/icons/dashboard.svg`,
+      setup:`${window.location.origin}/assets/icons/setup.svg`,
+      employeeManagement:`${window.location.origin}/assets/icons/employeeManagement.svg`,
       star:`${window.location.origin}/assets/icons/star.svg`,
       employee:`${window.location.origin}/assets/icons/hr-employee.svg`,
       salary_slip:`${window.location.origin}/assets/icons/hr-salary-slip.svg`,

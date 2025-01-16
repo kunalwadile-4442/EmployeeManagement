@@ -34,12 +34,10 @@ const initialState = {
     first_name: "Kunal",
     last_name: "Wadile",
     empEmail: 'kunal@appristine.in',
-    password: 'jdnndnkdn',
-    bank: 'jnsdbj',
+    password: 'Kunal@123',
+    bank: 'SBI',
     panCard: '89288298',
     dateOfBirth: '2023/01/25',
-    // male: true,
-    // female: false,
     gender:"male",
     empProfilePic: '',
     permanentAdd: 'pune MH',
@@ -72,8 +70,11 @@ const employeeBasicDetailsSlice = createSlice({
     resetBasicDetails: (state) => {
       state.basicDetails = initialState.basicDetails;
     },
+    setGender: (state, action) => {
+      state.basicDetails.gender = action.payload;
+    },    
   },
 });
 
-export const { setBasicDetails, resetBasicDetails } = employeeBasicDetailsSlice.actions;
+export const { setBasicDetails, resetBasicDetails,setGender } = employeeBasicDetailsSlice.actions;
 export default employeeBasicDetailsSlice.reducer;

@@ -10,10 +10,9 @@ import DropdownSelectNew from "../../../components/DropdownSelectNew";
 import InputField from "../../../components/InputField";
 import ReactDatePicker from "react-datepicker";
 import { useForm } from "react-hook-form";
-import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
 import InputLabel from "../../../components/InputLabel";
-
+import { showSuccessToast } from "../../../Utils/ToastsUtils";
 function HolidayForm({ id }) {
   const dispatch = useDispatch();
   const formData = useSelector((state) => state.holidayForm || {});
@@ -69,9 +68,13 @@ function HolidayForm({ id }) {
 
   const onSubmit = (data) => {
     console.log("Submitted Data:", data);
+    showSuccessToast("Form Submitted Successfully!");
     dispatch(resetHolidayFormData());
-    navigate("/organization/holiday-calender");
+      setTimeout(() => {
+      navigate("/organization/holiday-calender");
+    }, 500); 
   };
+  
 
   return (
     <FormLayout
@@ -179,15 +182,19 @@ function HolidayForm({ id }) {
           <InputLabel name="date" value="Date" />
 
           <ReactDatePicker
-            selected={watch("date") ? new Date(watch("date")) : null}
-            onChange={(date) => {
-              const formattedDate = date ? format(date, "dd-MMM-yyyy") : null;
-              setValue("date", formattedDate, { shouldValidate: true });
-            }}
-            dateFormat="dd-MMM-yyyy"
-            placeholderText="Select Date"
-            className="block w-full border rounded-md px-2 py-1.5"
-          />
+        selected={watch("date") ? new Date(watch("date")) : null}
+        onChange={(date) => {
+          const formattedDate = date ? format(date, "dd-MMM-yyyy") : null;
+          setValue("date", formattedDate, { shouldValidate: true });
+        }}
+        dateFormat="dd-MMM-yyyy"
+        placeholderText="Select Date"
+        className="block w-full border rounded-md px-2 py-1.5 " 
+      />
+      {/* <FaCalendarAlt
+        className="absolute right-7 top-1/3 mt-5 transform -translate-y-1/2 text-gray-400 cursor-pointer" 
+        size={20} 
+      /> */}
 
           {errors.date && (
             <p className="text-red-600 text-sm mt-1">{errors.date.message}</p>

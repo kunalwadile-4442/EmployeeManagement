@@ -20,19 +20,19 @@ const PreviousWorkingInfo = () => {
     (state) => state.previousWorkingInfo.previousWorkingInfo || []
   );
 
-  const { register, handleSubmit, setValue, watch } = useForm({
+  const { register, handleSubmit, setValue,control, watch,formState: { errors }, } = useForm({
     defaultValues: { previousWorkingInfo },
   });
 
   const handleDateChange = (date, id, field) => {
     const formattedDate = date ? format(date, "yyyy/MM/dd") : null;
-    setValue(`${id}.${field}`, formattedDate); // Update the local form state
+    setValue(`${id}.${field}`, formattedDate); 
     dispatch(updateRow({ id, updatedRow: { [field]: formattedDate } })); // Dispatch the action
   };
 
   const handleInputChange = (id, field, value) => {
-    setValue(`${id}.${field}`, value); // Update the local form state
-    dispatch(updateRow({ id, updatedRow: { [field]: value } })); // Dispatch the action
+    setValue(`${id}.${field}`, value); 
+    dispatch(updateRow({ id, updatedRow: { [field]: value } })); 
   };
 
   const handleAddNewRow = () => {
@@ -40,18 +40,43 @@ const PreviousWorkingInfo = () => {
   };
 
   const handleDelete = (id) => {
-    dispatch(deleteRow(id)); // Dispatch the delete action with the row id
+    dispatch(deleteRow(id)); 
   };
 
-  const handleSave = (data) => {
-    try {
-      console.log("Saved Data:", previousWorkingInfo);
-      showSuccessToast("Previous working information saved successfully!");
-    } catch (error) {
-      console.error("Error saving data:", error);
-      showErrorToast("An error occurred while saving. Please try again.");
-    }
-  };
+   const handleSave = (data) => {
+      try {
+        const transformedData = previousWorkingInfo.map((row) => ({
+          ...row,
+          companyName: data[row.id]?.companyName || row.companyName,
+          fromDate: data[row.id]?.fromDate || row.fromDate,
+          jobDescription: data[row.id]?.jobDescription || row.jobDescription,
+          jobTitle: data[row.id]?.jobTitle || row.jobTitle,
+          toDate: data[row.id]?.toDate || row.toDate,
+        }));
+    
+        // transformedData.forEach((row) => {
+        //   dispatch(updateRow({ id: row.id, updatedRow: row }));
+        // });
+        
+       console.log("Saved Data previousWorkingInfo::",transformedData)
+        showSuccessToast("Previous working information saved successfully");
+      } catch (error) {
+        console.error("Error saving Educational details:", error);
+        showErrorToast("An error occurred while saving. Please try again.");
+      }
+    };
+    
+
+
+  // const handleSave = (data) => {
+  //   try {
+  //     console.log("Saved Data:", previousWorkingInfo);
+  //     showSuccessToast("!");
+  //   } catch (error) {
+  //     console.error("Error saving data:", error);
+  //     showErrorToast("An error occurred while saving. Please try again.");
+  //   }
+  // };
 
   const columnKey = [
     "Company Name",
@@ -65,20 +90,25 @@ const PreviousWorkingInfo = () => {
   const renderBody = (item) => (
     <>
       <td>
-        <InputField
-          placeholder="Company Name"
-          className="mt-1"
-          inputClassName="h-9 rounded-md"
-          register={register(`${item.id}.companyName`)}
-          onBlur={(e) =>
-            dispatch(
-              updateRow({
-                id: item.id,
-                updatedRow: { companyName: e.target.value },
-              })
-            )
-          }
-        />
+      <InputField
+  placeholder="Company Name"
+  className="mt-1"
+  inputClassName="h-9 rounded-md"
+  register={register(`${item.id}.companyName`, {
+    required: "Company Name is required", // Add the required validation rule
+  })}
+  onBlur={(e) =>
+    dispatch(
+      updateRow({
+        id: item.id,
+        updatedRow: { companyName: e.target.value },
+      })
+    )
+  }
+  error={errors?.[item.id]?.companyName} // Display error message if any
+  required
+/>
+
       </td>
       <td>
         <InputField
@@ -126,7 +156,9 @@ const PreviousWorkingInfo = () => {
         <InputField
           placeholder="Job Description"
           className="mt-1"
+          control_name={`${item.id}.jobDescription`}
           useFor="textarea"
+          control={control}
           rows={1}
           inputClassName="h-9 rounded-md"
           register={register(`${item.id}.jobDescription`)}

@@ -18,9 +18,8 @@ const Sidebar = () => {
   };
 
   const isActive = (route) => {
-    // console.log("ROUT",route,pathname);
-    const pathRout=pathname?.split('/')[1]
-    const sideBarRout=route?.split('/')[1]
+    const pathRout = pathname?.split("/")[1];
+    const sideBarRout = route?.split("/")[1];
     return pathRout === sideBarRout;
   };
 
@@ -40,6 +39,7 @@ const Sidebar = () => {
       </div>
       <section className="bg-white rounded-lg bottom-0 overflow-y-auto pt-5 pb-5">
         <Scrollbar style={{ height: `calc(100vh - 0px)` }}>
+          
           {sidebarList.map((item, index) => {
             const itemRoute = item.route;
             const active = isActive(itemRoute);
@@ -47,7 +47,7 @@ const Sidebar = () => {
             return (
               <div
                 key={index}
-                className={`flex items-center sidebar-item justify-between border-l  sidebar-content 
+                className={`flex items-center sidebar-item justify-between   sidebar-content 
                                 rounded-lg ml-2 mr-2 cursor-pointer px-1 py-2 mb-2 
                                 ${
                                   active
@@ -79,8 +79,8 @@ const Sidebar = () => {
             );
           })}
           <div
-            className={`flex bottom-0 items-center sidebar-item justify-between border-l sidebar-content 
-                            rounded-lg ml-2 mr-2 hover:bg-[#fef2f2] hover:font-semibold cursor-pointer px-1 py-3 mt-5 
+            className={`flex bottom-0 items-center sidebar-item justify-between sidebar-content 
+                            rounded-lg ml-2 mr-2 hover:bg-[#fef2f2] hover:font-semibold cursor-pointer px-1 py-2 mt-5 
                             `}
             onClick={handleLogout}
           >

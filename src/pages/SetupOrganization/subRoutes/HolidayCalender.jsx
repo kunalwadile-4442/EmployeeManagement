@@ -71,7 +71,7 @@
 // //   // Function to export data to Excel (XLS)
 // //   const handleClickXls = () => {
 // //     // Convert dummyData to a worksheet
-// //     const ws = XLSX.utils.json_to_sheet(dummyData); 
+// //     const ws = XLSX.utils.json_to_sheet(dummyData);
 
 // //     // Create a new workbook and append the sheet
 // //     const wb = XLSX.utils.book_new();
@@ -204,14 +204,14 @@
 //     doc.text("Holiday", 100, 30);
 //     doc.text("Type", 150, 30);
 
-//     let y = 40; 
+//     let y = 40;
 
 //     dummyData.forEach((item) => {
 //       doc.text(item.Date, 20, y);
 //       doc.text(item.Day, 60, y);
 //       doc.text(item.Holiday, 100, y);
 //       doc.text(item.Type, 150, y);
-//       y += 10; 
+//       y += 10;
 //     });
 
 //     doc.save("Holiday_Calendar.pdf");
@@ -232,7 +232,7 @@
 //         customBtnTitle="Settings"
 //         PDF
 //         XLS
-//         handleClickPdf={handleClickPdf} 
+//         handleClickPdf={handleClickPdf}
 //         handleClickXls={handleClickXls}
 //         handleCustomBtnTitle={() => console.log("Modal")}
 //         handleOpen={addNewDesignation}
@@ -252,52 +252,60 @@
 import React, { useState } from "react";
 import TableLayout from "../../../layout/TableLayout";
 import { useNavigate } from "react-router-dom";
-import * as XLSX from "xlsx"; // Importing the xlsx library
-import { jsPDF } from "jspdf"; // Importing the jsPDF library
-import SettingModal from "../../../components/SettingModal"; 
+import * as XLSX from "xlsx";
+import { jsPDF } from "jspdf";
+import SettingModal from "../../../components/SettingModal";
 import FilterForm from "../../../components/FilterForm";
 import FilterToggle from "../../../components/FilterHideShow";
-
+import { openModal, closeModal } from "../../../redux/reducers/hrReducer";
+import { showSuccessToast } from "../../../Utils/ToastsUtils";
+import ConfirmModalPopup from "../../../Popups/ConfirmModalPopup";
+import { useDispatch, useSelector } from "react-redux";
 
 const HolidayCalender = () => {
   const navigate = useNavigate();
+    const dispatch = useDispatch();
+  
+    const { isModalOpen } = useSelector((state) => state.hrApp);
+    const [deleteItem, setDeleteItem] = React.useState(null);
+
   const [showFilters, setShowFilters] = React.useState(false);
 
   const dummyData = [
     {
       id: 1,
-      "Date": "14-Jan-2025",
+      Date: "14-Jan-2025",
       Day: "Tuesday",
       Holiday: "Makar Sankrant",
-      Type: "Festival"
+      Type: "Festival",
     },
     {
       id: 2,
-      "Date": "14-Jan-2025",
+      Date: "14-Jan-2025",
       Day: "Tuesday",
       Holiday: "Makar Sankrant",
-      Type: "Festival"
+      Type: "Festival",
     },
     {
       id: 3,
-      "Date": "14-Jan-2025",
+      Date: "14-Jan-2025",
       Day: "Tuesday",
       Holiday: "Makar Sankrant",
-      Type: "Festival"
+      Type: "Festival",
     },
     {
       id: 4,
-      "Date": "14-Jan-2025",
+      Date: "14-Jan-2025",
       Day: "Tuesday",
       Holiday: "Makar Sankrant",
-      Type: "Festival"
+      Type: "Festival",
     },
     {
       id: 5,
-      "Date": "14-Jan-2025",
+      Date: "14-Jan-2025",
       Day: "Tuesday",
       Holiday: "Makar Sankrant",
-      Type: "Festival"
+      Type: "Festival",
     },
   ];
 
@@ -318,14 +326,30 @@ const HolidayCalender = () => {
   };
 
   const callEditClick = (item) => {
-    // navigate(`/designation/${item.id}/edit`);
+    navigate(`/organization/holiday-calender/edit/${item.id}`);
   };
-
+  
   const callDeleteClick = (item) => {
-    console.log("Delete attendance:", item);
-  };
+        setDeleteItem(item);
+        dispatch(openModal());
+      };
+    
+      const handleDeleteConfirm = () => {
+        if (deleteItem) {
+          setDeleteItem(null);
+          dispatch(closeModal());
+          showSuccessToast("Holiday deleted successfully!");
+          console.log("Delete successfully",deleteItem); 
+        }
+      };
+    
+      const handleDeleteCancel = () => {
+        setDeleteItem(null);
+        dispatch(closeModal());
+      };
+  
 
-  // Function to export data to Excel (XLS)
+
   const handleClickXls = () => {
     const ws = XLSX.utils.json_to_sheet(dummyData);
     const wb = XLSX.utils.book_new();
@@ -339,7 +363,6 @@ const HolidayCalender = () => {
     doc.setFontSize(12);
     doc.text("Holiday Calendar", 20, 20);
 
-    // Table header
     doc.text("Date", 20, 30);
     doc.text("Day", 60, 30);
     doc.text("Holiday", 100, 30);
@@ -359,51 +382,51 @@ const HolidayCalender = () => {
   };
 
   const locationOptions = [
-    {value:"pune" , label :"Pune"},
-    {value:"solapur" , label :"Solapur"}
-
-  ]
+    { value: "pune", label: "Pune" },
+    { value: "solapur", label: "Solapur" },
+  ];
   const holidayTypeOptions = [
-    { value:"National", label:"National"},
-    { value:"Weekly", label:"Weekly"},
-    { value:"Festivals", label:"Festivals"}
+    { value: "National", label: "National" },
+    { value: "Weekly", label: "Weekly" },
+    { value: "Festivals", label: "Festivals" },
+  ];
+  const [isModalOpenSetting, setIsModalOpen] = useState(false);
 
-  ]
-  // State to control the modal visibility
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleSearch = (filters) => {};
 
-  const handleSearch = (filters) => {}
-   const handleReset = () => {
-    };
+  const handleReset = () => {};
 
-  // Function to open the modal
   const openSettingsModal = () => {
     setIsModalOpen(true);
   };
 
-
-  // Function to close the modal
   const closeSettingsModal = () => {
     setIsModalOpen(false);
   };
 
   return (
     <div>
+      <FilterToggle showFilters={showFilters} setShowFilters={setShowFilters} />
 
-<FilterToggle showFilters={showFilters} setShowFilters={setShowFilters} />
-
-{showFilters && (
-  <FilterForm
-    Locations={locationOptions}
-    HolidayType={holidayTypeOptions}
-    FormDate
-    ToDate
-    HolidayName
-    handleSearch={handleSearch}
-    handleReset={handleReset}
-  />
-)}
-
+      <div
+  className={`transition-all duration-500 ease-in-out overflow-hidden transform ${
+    showFilters
+      ? "opacity-100 translate-y-0"
+      : "opacity-0 -translate-y-5"
+  }`}
+>
+      {showFilters && (
+        <FilterForm
+          Locations={locationOptions}
+          HolidayType={holidayTypeOptions}
+          FormDate
+          ToDate
+          HolidayName
+          handleSearch={handleSearch}
+          handleReset={handleReset}
+        />
+      )}
+</div>
       <TableLayout
         columnKey={columnKey}
         dataItem={dummyData}
@@ -419,17 +442,23 @@ const HolidayCalender = () => {
         XLS
         handleClickPdf={handleClickPdf}
         handleClickXls={handleClickXls}
-        handleCustomBtnTitle={openSettingsModal} 
+        handleCustomBtnTitle={openSettingsModal}
         handleOpen={addNewDesignation}
         callEditClick={callEditClick}
         callDeleteClick={callDeleteClick}
         style={{
-          height: "calc(100vh - 10px)", 
+          height: "calc(100vh - 10px)",
         }}
         links={{}}
       />
+       <ConfirmModalPopup
+        isOpen={isModalOpen}
+        message={"Are you sure you want to delete this item ?"}
+        onSubmit={handleDeleteConfirm}
+        onCancel={handleDeleteCancel}
+      />
 
-      <SettingModal isOpen={isModalOpen} onClose={closeSettingsModal} />
+      <SettingModal isOpen={isModalOpenSetting} onClose={closeSettingsModal} />
     </div>
   );
 };
