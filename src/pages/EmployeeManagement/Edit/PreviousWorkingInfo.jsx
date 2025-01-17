@@ -20,19 +20,26 @@ const PreviousWorkingInfo = () => {
     (state) => state.previousWorkingInfo.previousWorkingInfo || []
   );
 
-  const { register, handleSubmit, setValue,control, watch,formState: { errors }, } = useForm({
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    control,
+    watch,
+    formState: { errors },
+  } = useForm({
     defaultValues: { previousWorkingInfo },
   });
 
   const handleDateChange = (date, id, field) => {
     const formattedDate = date ? format(date, "yyyy/MM/dd") : null;
-    setValue(`${id}.${field}`, formattedDate); 
+    setValue(`${id}.${field}`, formattedDate);
     dispatch(updateRow({ id, updatedRow: { [field]: formattedDate } })); // Dispatch the action
   };
 
   const handleInputChange = (id, field, value) => {
-    setValue(`${id}.${field}`, value); 
-    dispatch(updateRow({ id, updatedRow: { [field]: value } })); 
+    setValue(`${id}.${field}`, value);
+    dispatch(updateRow({ id, updatedRow: { [field]: value } }));
   };
 
   const handleAddNewRow = () => {
@@ -40,33 +47,31 @@ const PreviousWorkingInfo = () => {
   };
 
   const handleDelete = (id) => {
-    dispatch(deleteRow(id)); 
+    dispatch(deleteRow(id));
   };
 
-   const handleSave = (data) => {
-      try {
-        const transformedData = previousWorkingInfo.map((row) => ({
-          ...row,
-          companyName: data[row.id]?.companyName || row.companyName,
-          fromDate: data[row.id]?.fromDate || row.fromDate,
-          jobDescription: data[row.id]?.jobDescription || row.jobDescription,
-          jobTitle: data[row.id]?.jobTitle || row.jobTitle,
-          toDate: data[row.id]?.toDate || row.toDate,
-        }));
-    
-        // transformedData.forEach((row) => {
-        //   dispatch(updateRow({ id: row.id, updatedRow: row }));
-        // });
-        
-       console.log("Saved Data previousWorkingInfo::",transformedData)
-        showSuccessToast("Previous working information saved successfully");
-      } catch (error) {
-        console.error("Error saving Educational details:", error);
-        showErrorToast("An error occurred while saving. Please try again.");
-      }
-    };
-    
+  const handleSave = (data) => {
+    try {
+      const transformedData = previousWorkingInfo.map((row) => ({
+        ...row,
+        companyName: data[row.id]?.companyName || row.companyName,
+        fromDate: data[row.id]?.fromDate || row.fromDate,
+        jobDescription: data[row.id]?.jobDescription || row.jobDescription,
+        jobTitle: data[row.id]?.jobTitle || row.jobTitle,
+        toDate: data[row.id]?.toDate || row.toDate,
+      }));
 
+      // transformedData.forEach((row) => {
+      //   dispatch(updateRow({ id: row.id, updatedRow: row }));
+      // });
+
+      console.log("Saved Data previousWorkingInfo::", transformedData);
+      showSuccessToast("Previous working information saved successfully");
+    } catch (error) {
+      console.error("Error saving Educational details:", error);
+      showErrorToast("An error occurred while saving. Please try again.");
+    }
+  };
 
   // const handleSave = (data) => {
   //   try {
@@ -90,32 +95,40 @@ const PreviousWorkingInfo = () => {
   const renderBody = (item) => (
     <>
       <td>
-      <InputField
-  placeholder="Company Name"
-  className="mt-1"
-  inputClassName="h-9 rounded-md"
-  register={register(`${item.id}.companyName`, {
-    required: "Company Name is required", // Add the required validation rule
-  })}
-  onBlur={(e) =>
-    dispatch(
-      updateRow({
-        id: item.id,
-        updatedRow: { companyName: e.target.value },
-      })
-    )
-  }
-  error={errors?.[item.id]?.companyName} // Display error message if any
-  required
-/>
-
+        <InputField
+          placeholder="Company Name"
+          className="mt-1"
+          inputClassName="h-9 rounded-md"
+          register={register(`${item.id}.companyName`, {
+            required: "Company Name is required",
+            maxLength: {
+              value: 255,
+              message: "The input cannot exceed 255 characters.",
+            },
+          })}
+          onBlur={(e) =>
+            dispatch(
+              updateRow({
+                id: item.id,
+                updatedRow: { companyName: e.target.value },
+              })
+            )
+          }
+          error={errors?.[item.id]?.companyName} 
+          required
+        />
       </td>
       <td>
         <InputField
           placeholder="Job Title"
           className="mt-1"
           inputClassName="h-9 rounded-md"
-          register={register(`${item.id}.jobTitle`)}
+          register={register(`${item.id}.jobTitle`,{
+            maxLength: {
+              value: 255,
+              message: "The input cannot exceed 255 characters.",
+            },
+          })}
           onBlur={(e) =>
             dispatch(
               updateRow({
@@ -161,7 +174,12 @@ const PreviousWorkingInfo = () => {
           control={control}
           rows={1}
           inputClassName="h-9 rounded-md"
-          register={register(`${item.id}.jobDescription`)}
+          register={register(`${item.id}.jobDescription`,{
+            maxLength: {
+              value: 255,
+              message: "The input cannot exceed 255 characters.",
+            },
+          })}
           onBlur={(e) =>
             dispatch(
               updateRow({
@@ -179,7 +197,7 @@ const PreviousWorkingInfo = () => {
           button
           size="md"
           onClick={() => handleDelete(item.id)}
-          className="w-6 h-6" // Fixed size
+          className="w-6 h-6" 
         />
       </td>
     </>
@@ -195,7 +213,7 @@ const PreviousWorkingInfo = () => {
         title="+ Add New Row"
         handleOpen={handleAddNewRow}
         style={{
-          height: "calc(100vh - 10px)", 
+          height: "calc(100vh - 10px)",
         }}
         isDelete={false}
         customBtn={true}

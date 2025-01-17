@@ -1,7 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./reducers/userReducer"
 import hrAppReducer from "./reducers/hrReducer";
-import employeeEditReducer from './reducers/employeeEditReducer'; 
 import employeeCreateReducer from './reducers/employeeCreateSlice';
 import orgLocationReducer from './reducers/orgLocationReducer';
 import orgDesignationReducer from './reducers/orgDesignationReducer';
@@ -24,7 +23,6 @@ const store = configureStore({
   reducer: {
     user: userReducer,
     hrApp: hrAppReducer,
-    employeeEdit:employeeEditReducer,
     employeeCreate: employeeCreateReducer,
     employeeBasicDetails:employeeBasicDetailsReducer,
     employeeCurrentWorking:employeeCurrentWorkingReducer,

@@ -318,7 +318,7 @@ function UploadDocs() {
             register={register(`docsUpload`)}
           /> */}
           <InputField
-            name="docsUpload"
+            name="Document Upload"
             placeholder="Upload Docs"
             inputClassName="h-9 rounded-md"
             type="file"

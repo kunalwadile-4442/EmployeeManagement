@@ -80,7 +80,7 @@ const Sidebar = () => {
           })}
           <div
             className={`flex bottom-0 items-center sidebar-item justify-between sidebar-content 
-                            rounded-lg ml-2 mr-2 hover:bg-[#fef2f2] hover:font-semibold cursor-pointer px-1 py-2 mt-5 
+                            rounded-lg ml-2 mr-2 hover:bg-[#fef2f2] cursor-pointer px-1 py-2 mt-5 
                             `}
             onClick={handleLogout}
           >
@@ -90,7 +90,7 @@ const Sidebar = () => {
                 className="text-gray-500 sidebar-icon font-bold"
                 size="md"
               />
-              <span className="text-sm text-red-500 sidebar-text-logout hover:font-semibold">
+              <span className="text-sm text-red-500 sidebar-text-logout font-semibold ">
                 Logout
               </span>
             </div>

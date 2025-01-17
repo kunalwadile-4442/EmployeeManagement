@@ -228,10 +228,10 @@ function BasicInfo() {
             inputClassName="h-9 rounded-md"
             register={register(`first_name`, {
               required: "First Name is required",
-              // maxLength: {
-              //   value: 255,
-              //   message: "Customer person name cannot exceed 255 characters",
-              // },
+              maxLength: {
+                value: 255,
+                message: "The input cannot exceed 255 characters.",
+              },
             })}
             error={errors?.first_name}
             required
@@ -258,6 +258,10 @@ function BasicInfo() {
             inputClassName="h-9 rounded-md"
             register={register(`bank`, {
               required: "Bank Account Number is required",
+              maxLength: {
+                value: 255,
+                message: "The input cannot exceed 255 characters.",
+              },
             })}
             error={errors?.bank}
           />
@@ -270,6 +274,10 @@ function BasicInfo() {
             inputClassName="h-9 rounded-md"
             register={register(`panCard`, {
               required: "PAN Card Number is required",
+              maxLength: {
+                value: 255,
+                message: "The input cannot exceed 255 characters.",
+              },
             })}
             error={errors?.panCard}
           />
@@ -284,6 +292,10 @@ function BasicInfo() {
             inputClassName="h-9 rounded-md"
             register={register("empEmail", {
               required: "Email is required",
+              maxLength: {
+                value: 255,
+                message: "The input cannot exceed 255 characters.",
+              },
               pattern: {
                 value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
                 message: "Please enter a valid email address",
@@ -302,6 +314,10 @@ function BasicInfo() {
             inputClassName="h-9 rounded-md"
             register={register("password", {
               required: "Password is required",
+              maxLength: {
+                value: 255,
+                message: "The input cannot exceed 255 characters.",
+              },
               validate: (value) => {
                 if (value.length < 6) {
                   return "Password must be at least 6 characters long.";
@@ -411,26 +427,6 @@ function BasicInfo() {
 
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
         <div className="col-span-2 mb-4">
-          {/* <InputLabel htmlFor="dateOfJoining" value="Date of Joining" />
-            <ReactDatePicker
-            selected={watch("dateOfJoining") ? new Date(watch("dateOfJoining")) : null}
-            onChange={(date) => {
-              const formattedDate = date ? format(date, "yyyy/MM/dd") : null;
-              setValue("dateOfJoining", formattedDate, { shouldValidate: true });
-            }}
-            dateFormat="yyyy/MM/dd"
-            placeholderText="Select Birth Date"
-            className="block w-full border rounded-md px-2 py-1.5"
-            {...register("dateOfJoining", {
-              // required: "Date of Birth is required", 
-            })}
-          />
-          {errors.dateOfJoining && (
-            <p className="text-red-600 text-sm mt-1">
-              {errors.dateOfJoining.message}
-            </p>
-          )} */}
-
           <InputLabel htmlFor="dateOfJoining" value="Date of Joining" />
           <ReactDatePicker
             selected={
@@ -445,7 +441,6 @@ function BasicInfo() {
             dateFormat="dd-MMM-yyyy"
             placeholderText="Select Joining Date"
             className="block w-full border rounded-md px-2 py-1.5"
-            // required
           />
         </div>
 
@@ -485,27 +480,7 @@ function BasicInfo() {
             setValue={setValue}
           />
 
-          {/* <DropdownSelect
-            id="monthlyExperience"
-            options={monthOptions}
-            onSelect={(option) => {
-              handleInputChange("monthlyExperience", option.value);
-              setValue("monthlyExperience", option.value);
-            }}
-            value={monthOptions.find(
-              (option) => option.value === basicDetails.monthlyExperience
-            )}
-            placeholder="Select month"
-            className="mt-5 w-full"
-            {...register("monthlyExperience", {
-              required: "Experience is required",
-            })}
-          />
-          {errors.monthlyExperience && (
-            <p className="text-red-500 text-sm">
-              {errors.monthlyExperience.message}
-            </p>
-          )} */}
+        
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -573,10 +548,10 @@ function BasicInfo() {
             className=" "
             inputClassName="h-9 rounded-md"
             register={register(`basicSalary`, {
-              // maxLength: {
-              //   value: 255,
-              //   message: "Customer person name cannot exceed 255 characters",
-              // },
+              maxLength: {
+                value: 255,
+                message: "The input cannot exceed 255 characters.",
+              },
             })}
             error={errors?.basicSalary}
           />
@@ -593,31 +568,6 @@ function BasicInfo() {
         <div className="col-span-1">
           <div className="flex flex-col">
             <InputLabel htmlFor="dateOfBirth" value="Date of Birth" required />
-
-            {/* <ReactDatePicker
-              selected={
-                watch("dateOfBirth") ? new Date(watch("dateOfBirth")) : null
-              }
-               onChange={(date) => {
-                            const formattedDate = date ? format(date, "dd-MMM-yyyy") : null;
-                            setValue("dateOfBirth", formattedDate, { shouldValidate: true });
-                          }}
-              // onChange={(date) => {
-              //   const formattedDate = date ? format(date, "yyyy/MM/dd") : null;
-              //   setValue("dateOfBirth", formattedDate, {
-              //     shouldValidate: true,
-              //   });
-              // }}
-              dateFormat="yyyy/MM/dd"
-              placeholderText="Select Birth Date"
-              className="block w-full border rounded-md px-2 py-1.5"
-              required
-            />
-            {errors.dateOfBirth && (
-              <p className="text-red-600 text-sm mt-1">
-                {errors.dateOfBirth.message}
-              </p>
-            )} */}
             <ReactDatePicker
               selected={
                 watch("dateOfBirth") ? new Date(watch("dateOfBirth")) : null
@@ -660,15 +610,9 @@ function BasicInfo() {
 
         <div className="col-span-2">
           <div className="flex flex-col">
-            {/* <InputField
-              name="Profile Picture"
-              placeholder="Choose Profile Picture"
-              inputClassName="h-9 rounded-md"
-              type="file"
-              register={register(`empProfilePic`)}
-            /> */}
+            
              <InputField
-            name="Profilr Picture"
+            name="Profile Picture"
             placeholder="Choose Profile Picture"
             inputClassName="h-9 rounded-md"
             type="file"
@@ -694,6 +638,10 @@ function BasicInfo() {
             rows={2}
             register={register(`permanentAdd`, {
               required: "Permanent Address required",
+              maxLength: {
+                value: 255,
+                message: "The input cannot exceed 255 characters.",
+              },
             })}
             required
             error={errors?.permanentAdd}
@@ -707,7 +655,14 @@ function BasicInfo() {
               inputClassName="rounded-md"
               useFor="textarea"
               rows={2}
-              register={register(`presentAdd`)}
+              register={register(`presentAdd`,{
+                maxLength: {
+                  value: 255,
+                  message: "The input cannot exceed 255 characters.",
+                },
+              })
+                
+              }
             />
           </div>
         </div>
@@ -735,7 +690,12 @@ function BasicInfo() {
             placeholder="Enter Post Code"
             className=" mt-3"
             inputClassName="h-9 rounded-md"
-            register={register(`postCode`)}
+            register={register(`postCode`,{
+              maxLength: {
+                value: 255,
+                message: "The input cannot exceed 255 characters.",
+              },
+            })}
             error={errors?.postCode}
           />
         </div>
@@ -748,7 +708,12 @@ function BasicInfo() {
             placeholder="Enter City"
             className=" mt-3"
             inputClassName="h-9 rounded-md"
-            register={register(`city`)}
+            register={register(`city`,{
+              maxLength: {
+                value: 255,
+                message: "The input cannot exceed 255 characters.",
+              },
+            })}
           />
         </div>
 
@@ -758,7 +723,12 @@ function BasicInfo() {
             placeholder="Enter State"
             className=" mt-3"
             inputClassName="h-9 rounded-md"
-            register={register(`states`)}
+            register={register(`states`,{
+              maxLength: {
+                value: 255,
+                message: "The input cannot exceed 255 characters.",
+              },
+            })}
           />
         </div>
       </div>

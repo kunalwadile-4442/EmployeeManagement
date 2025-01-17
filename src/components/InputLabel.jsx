@@ -27,11 +27,11 @@ export default function InputLabel({
     return (
       <label
         {...props}
-        className={`block text-sm font-medium text-gray-700 ${className}`}
+        className={`block text-sm font-semibold  text-gray-700 ${className}`}
       >
         {value ? value : children}
         {required && (
-          <span className="text-red-600 ml-1">*</span> // A red asterisk if required is true
+          <span className="text-red-600 ml-1">*</span> 
         )}
       </label>
     );
