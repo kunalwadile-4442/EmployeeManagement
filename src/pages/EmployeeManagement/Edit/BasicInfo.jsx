@@ -660,13 +660,26 @@ function BasicInfo() {
 
         <div className="col-span-2">
           <div className="flex flex-col">
-            <InputField
+            {/* <InputField
               name="Profile Picture"
               placeholder="Choose Profile Picture"
               inputClassName="h-9 rounded-md"
               type="file"
               register={register(`empProfilePic`)}
-            />
+            /> */}
+             <InputField
+            name="Profilr Picture"
+            placeholder="Choose Profile Picture"
+            inputClassName="h-9 rounded-md"
+            type="file"
+            register={register("empProfilePic")}
+            onChange={({ value }) => {
+              if (value) {
+                handleInputChange("empProfilePic", value);
+                setValue("empProfilePic", value); 
+              }
+            }}
+          />
           </div>
         </div>
       </div>

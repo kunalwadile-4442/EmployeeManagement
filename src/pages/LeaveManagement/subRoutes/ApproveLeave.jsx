@@ -46,10 +46,11 @@ const ApproveLeave = () => {
 
   const callEditClick = (item) => {
     console.log("Edit attendance:", item);
+    navigate("/leave/create");
   };
 
   const handleCustomBtnTitle = ()=>{
-    navigate("/leave/create")
+    navigate("/leave/create");
    }
   
  

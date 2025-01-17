@@ -65,12 +65,12 @@ const Attendance = () => {
   };
 
   const callEditClick = (item) => {
-    setOpenModalAttendance(true); 
+    setOpenModalAttendance(true);
     console.log("Edit attendance:", item);
   };
   const callDeleteClick = (item) => {
     setDeleteItem(item);
-    setOpenModalConfirm(true); 
+    setOpenModalConfirm(true);
   };
 
   const handleDeleteConfirm = () => {
@@ -94,7 +94,7 @@ const Attendance = () => {
     const parseTime = (time) => {
       const [hoursMinutes, modifier] = time.split(" ");
       let [hours, minutes] = hoursMinutes.split(":");
-  
+
       // Convert to 24-hour format
       hours = parseInt(hours, 10);
       if (modifier === "PM" && hours !== 12) {
@@ -103,27 +103,27 @@ const Attendance = () => {
       if (modifier === "AM" && hours === 12) {
         hours = 0;
       }
-  
+
       return { hours, minutes: parseInt(minutes, 10) };
     };
-  
+
     if (!checkInTime || !checkOutTime) return "--";
-  
+
     const checkIn = parseTime(checkInTime);
     const checkOut = parseTime(checkOutTime);
-  
+
     const checkInMinutes = checkIn.hours * 60 + checkIn.minutes;
     const checkOutMinutes = checkOut.hours * 60 + checkOut.minutes;
-  
+
     const diffMinutes = checkOutMinutes - checkInMinutes;
-    if (diffMinutes < 0) return "--"; 
-  
+    if (diffMinutes < 0) return "--";
+
     const hours = Math.floor(diffMinutes / 60);
     const minutes = diffMinutes % 60;
-  
+
     return `${hours} hr ${minutes} min`;
   };
-  
+
   const renderBody = (item) => (
     <>
       <td className="min-w-[230px]">
@@ -140,7 +140,9 @@ const Attendance = () => {
       <td>{item?.firstCheckInTime || "--"}</td>
       <td>{item?.lastCheckOutTime || "--"}</td>
       <td>{item?.attendanceDate || "--"}</td>
-      <td>{calculateDuration(item?.firstCheckInTime, item?.lastCheckOutTime)}</td>
+      <td>
+        {calculateDuration(item?.firstCheckInTime, item?.lastCheckOutTime)}
+      </td>
       <td>{item?.status || "--"}</td>
     </>
   );
@@ -167,27 +169,18 @@ const Attendance = () => {
     <div>
       <FilterToggle showFilters={showFilters} setShowFilters={setShowFilters} />
 
-      <div
-        className={`transition-all duration-500 ease-in-out ${
-          showFilters
-            ? "opacity-100 translate-y-0"
-            : " opacity-0 -translate-y-5"
-        }`}
-        style={{ transitionProperty: "max-height, opacity, transform" }}
-      >
-        {showFilters && (
-          <FilterForm
-            EmployeeName={timeTrackData.map((item) => ({
-              value: item.name,
-              label: item.name,
-            }))}
-            FormDate
-            ToDate
-            handleSearch={handleSearch}
-            handleReset={handleReset}
-          />
-        )}
-      </div>
+      {showFilters && (
+        <FilterForm
+          EmployeeName={timeTrackData.map((item) => ({
+            value: item.name,
+            label: item.name,
+          }))}
+          FormDate
+          ToDate
+          handleSearch={handleSearch}
+          handleReset={handleReset}
+        />
+      )}
 
       <TableLayout
         columnKey={columnKey}

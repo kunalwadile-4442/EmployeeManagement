@@ -193,7 +193,6 @@
 
 // export default UploadDocs;
 
-
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -202,10 +201,6 @@ import {
 } from "../../../redux/reducers/employeeDocsUpload";
 import { useForm } from "react-hook-form";
 import FormLayout from "../../../layout/FormLayout";
-import TextInput from "../../../components/TextInput";
-import DropdownSelect from "../../../components/DropdownSelect";
-import InputLabel from "../../../components/InputLabel";
-import TextArea from "../../../components/TextArea";
 import InputField from "../../../components/InputField";
 import DropdownSelectNew from "../../../components/DropdownSelectNew";
 import { showSuccessToast, showErrorToast } from "../../../Utils/ToastsUtils"; // Import toast functions
@@ -219,7 +214,7 @@ function UploadDocs() {
     handleSubmit,
     formState: { errors },
     setValue,
-    watch,
+    reset,
     control,
   } = useForm({
     defaultValues: formData,
@@ -235,19 +230,35 @@ function UploadDocs() {
     dispatch(setFormData({ [name]: value }));
   };
 
+  // const handleSubmitForm = (data) => {
+  //   try {
+  //     console.log("Submitted Data:", data);
+  //     console.log("Saved Data:", data.employeeDocsUpload);
+  //     dispatch(resetFormData());
+  //     showSuccessToast("Document Uploaded successfully!");
+  //   } catch (error) {
+  //     console.error("Error Document upload details:", error);
+  //     showErrorToast(
+  //       "An error occurred while uploading document. Please try again."
+  //     );
+  //   }
+  // };
 
-
-     const handleSubmitForm = (data) => {
-          try {
-            console.log("Submitted Data:", data);
-            console.log("Saved Data:", data.employeeDocsUpload);
-            dispatch(resetFormData());
-              showSuccessToast("Document Uploaded successfully!");
-          } catch (error) {
-            console.error("Error Document upload details:", error);
-            showErrorToast("An error occurred while uploading document. Please try again.");
-          }
-        };
+  const handleSubmitForm = (data) => {
+    try {
+      console.log("Submitted Data:", data);
+      console.log("Saved Data in Redux:", formData); 
+      console.log("Uploaded File:", formData.docsUpload); 
+      dispatch(resetFormData());
+      showSuccessToast("Document Uploaded successfully!");
+      reset();
+    } catch (error) {
+      console.error("Error Document upload details:", error);
+      showErrorToast(
+        "An error occurred while uploading the document. Please try again."
+      );
+    }
+  };
 
   const docsTypeOptions = [
     { value: "resume", label: "Resume" },
@@ -275,48 +286,55 @@ function UploadDocs() {
         <div className="col-span-1">
           <div className="flex flex-col">
             <DropdownSelectNew
-            label="Document Type"
-            name="docsType"
-            options={docsTypeOptions}
-            onSelect={(option) => {
-              handleInputChange("docsType", option.value);
-              setValue("docsType", option.value);
-            }}
-            value={docsTypeOptions.find(
-              (option) => option.value === formData.docsType
+              label="Document Type"
+              name="docsType"
+              options={docsTypeOptions}
+              onSelect={(option) => {
+                handleInputChange("docsType", option.value);
+                setValue("docsType", option.value);
+              }}
+              value={docsTypeOptions.find(
+                (option) => option.value === formData.docsType
+              )}
+              placeholder="Select Document"
+              control={control}
+              rules={{ required: "Document type is required" }}
+              className=""
+              setValue={setValue}
+              required
+            />
+            {errors.docsType && (
+              <p className="text-red-500 text-xs">{errors.docsType.message}</p>
             )}
-            placeholder="Select Document"
-            control={control}
-            rules={{ required: "Document type is required" }}
-            className=""
-            setValue={setValue}
-            required
-          />
-          {errors.docsType && (
-            <p className="text-red-500 text-xs">
-              {errors.docsType.message}
-            </p>
-          )}
-       
-           
           </div>
         </div>
 
         <div className="col-span-1 flex flex-col">
-        <InputField
-              name="Document Upload"
-              placeholder="Upload Docs"
-              inputClassName="h-9 rounded-md"
-              type="file"
-              register={register(`docsUpload`)}
-           
-            />
-        
+          {/* <InputField
+            name="Document Upload"
+            placeholder="Upload Docs"
+            inputClassName="h-9 rounded-md"
+            type="file"
+            register={register(`docsUpload`)}
+          /> */}
+          <InputField
+            name="docsUpload"
+            placeholder="Upload Docs"
+            inputClassName="h-9 rounded-md"
+            type="file"
+            register={register("docsUpload")}
+            onChange={({ value }) => {
+              if (value) {
+                handleInputChange("docsUpload", value);
+                setValue("docsUpload", value); 
+              }
+            }}
+          />
         </div>
 
         <div className="col-span-2">
           <div className="flex flex-col">
-          <InputField
+            <InputField
               name="Description"
               placeholder="Description"
               inputClassName="rounded-md"
@@ -324,16 +342,6 @@ function UploadDocs() {
               rows={1}
               register={register(`description`)}
             />
-            {/* <TextArea
-              id="description"
-              name="description"
-              type="textarea"
-              rows={1}
-              placeholder="Description"
-              className="mt-1 block w-full px-3 py-1.5 border border-gray-300 rounded-md shadow-sm focus:outline-none"
-              value={formData.description}
-              onChange={(e) => handleInputChange("description", e.target.value)}
-            /> */}
           </div>
         </div>
       </div>

@@ -170,6 +170,8 @@
 // }
 
 // export default CreateLeave;
+
+
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -240,7 +242,13 @@ function CreateLeave({ id }) {
   };
 
   const handleDateChange = (date, name) => {
-    const formattedDate = date ? format(date, "dd-MM-yyyy") : null;
+    if (!date) {
+      dispatch(setLeaveFormData({ [name]: null }));
+      setValue(name, null);
+      return;
+    }
+  
+    const formattedDate = format(date, "yyyy-MM-dd"); // Use standard format
     dispatch(setLeaveFormData({ [name]: formattedDate }));
     setValue(name, formattedDate);
   };
@@ -307,13 +315,13 @@ function CreateLeave({ id }) {
         <div className="mb-4">
           <InputLabel htmlFor="dateFrom" value="From Date" required />
           <ReactDatePicker
-            selected={formData.dateFrom ? new Date(formData.dateFrom) : null}
-            onChange={(date) => handleDateChange(date, "dateFrom")}
-            dateFormat="dd-MMM-yyyy"
-            placeholderText="Select From Date"
-            className="block w-full border rounded-md px-2 py-1.5"
-            required
-          />
+  selected={formData.dateFrom && !isNaN(new Date(formData.dateFrom)) ? new Date(formData.dateFrom) : null}
+  onChange={(date) => handleDateChange(date, "dateFrom")}
+  dateFormat="dd-MM-yyyy"
+  placeholderText="Select From Date"
+  className="block w-full border rounded-md px-2 py-1.5"
+  required
+/>
         </div>
 
         <div className="mb-4">

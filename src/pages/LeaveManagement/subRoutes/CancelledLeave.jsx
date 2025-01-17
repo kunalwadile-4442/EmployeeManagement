@@ -46,6 +46,7 @@ const CancelledLeave = () => {
 
   const callEditClick = (item) => {
     console.log("Edit attendance:", item);
+    navigate("/leave/create")
   };
 
  

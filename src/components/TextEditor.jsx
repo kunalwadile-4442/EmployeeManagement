@@ -57,10 +57,10 @@ const TextEditor = ({ field, errors }) => {
       ["bold", "italic", "underline"],
       [{ color: [] }, { background: [] }],
       [{ align: [] }],
-      ["link", "image"], // Image and link options
-      ["blockquote", "code-block"], // Blockquote and code block options
-      [{ script: "sub" }, { script: "super" }], // Superscript and subscript options
-      ["clean"], // Clear formatting option
+      ["link", "image"], 
+      ["blockquote", "code-block"], 
+      [{ script: "sub" }, { script: "super" }], 
+      ["clean"], 
     ],
   };
 
@@ -90,7 +90,7 @@ const TextEditor = ({ field, errors }) => {
         onChange={field.onChange}
         modules={modules}
         formats={formats}
-        style={{ height: "calc(100vh - 320px)", marginBottom: "50px" }}
+        style={{ height: "calc(100vh - 520px)", marginBottom: "50px" }}
       />
       {errors && (
         <p className="text-xs mx-1 text-red-500 mt-1">{errors.message}</p>
