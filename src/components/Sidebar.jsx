@@ -39,7 +39,6 @@ const Sidebar = () => {
       </div>
       <section className="bg-white rounded-lg bottom-0 overflow-y-auto pt-5 pb-5">
         <Scrollbar style={{ height: `calc(100vh - 0px)` }}>
-          
           {sidebarList.map((item, index) => {
             const itemRoute = item.route;
             const active = isActive(itemRoute);
