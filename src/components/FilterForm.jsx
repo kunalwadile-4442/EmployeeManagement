@@ -390,6 +390,7 @@ import React, { useState } from "react";
 import InputLabel from "../components/InputLabel";
 import DropdownSelect from "../components/DropdownSelect";
 import ReactDatePicker from "react-datepicker";
+import DropdownSelectNew from "./DropdownSelectNew";
 import InputField from "./InputField";
 import { useForm } from "react-hook-form";
 
@@ -448,7 +449,6 @@ const FilterForm = ({
   };
 
   return (
-    <div className="">
     <form
       onSubmit={handleFormSubmit}
       className="flex flex-col gap-4 text-sm mt-2 px-2"
@@ -653,7 +653,6 @@ const FilterForm = ({
         </div>
       </div>
     </form>
-      </div>
   );
 };
 

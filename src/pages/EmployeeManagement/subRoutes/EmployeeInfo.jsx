@@ -126,7 +126,6 @@ const EmployeeInfo = () => {
     <div>
       <FilterToggle showFilters={showFilters} setShowFilters={setShowFilters} />
 
-    
       {showFilters && (
         <FilterForm
           EmployeeName={attendanceData.map((item) => ({

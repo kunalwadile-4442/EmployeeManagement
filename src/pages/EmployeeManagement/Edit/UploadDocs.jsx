@@ -308,12 +308,8 @@ function UploadDocs() {
               placeholder="Upload Docs"
               inputClassName="h-9 rounded-md"
               type="file"
-              register={register(`docsUpload`, {
-                required: "Document upload is required",
-               
-              })}
-              required
-              error={errors?.docsUpload}
+              register={register(`docsUpload`)}
+           
             />
         
         </div>

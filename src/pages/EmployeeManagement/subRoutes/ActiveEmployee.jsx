@@ -122,7 +122,7 @@ const ActiveEmployee = () => {
   return (
     <div>
       <FilterToggle showFilters={showFilters} setShowFilters={setShowFilters} />
-    
+
       {showFilters && (
         <FilterForm
           EmployeeName={
@@ -137,7 +137,6 @@ const ActiveEmployee = () => {
           handleReset={handleReset}
         />
       )}
-  
 
       <TableLayout
 

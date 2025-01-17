@@ -7,14 +7,17 @@ import { useDispatch, useSelector } from "react-redux";
 import TableLayout from "../../../layout/TableLayout";
 import FilterForm from "../../../components/FilterForm";
 import FilterToggle from "../../../components/FilterHideShow";
-import {setFilteredData} from "../../../redux/reducers/hrReducer";
+import {setFilteredData,openModal,closeModal} from "../../../redux/reducers/hrReducer";
+// import ConfirmModalPopup from "../../../Popups/ConfirmModalPopup";
+// import { showSuccessToast } from "../../../Utils/ToastsUtils";
 
 const Checkin = () => {
   const dispatch = useDispatch();
-  const { attendanceData, filteredData } = useSelector(
+  const { attendanceData, filteredData,isModalOpen } = useSelector(
     (state) => state.hrApp
   );
 
+    // const [deleteItem, setDeleteItem] = React.useState(null); // State to store the item to delete
   const [showFilters, setShowFilters] = React.useState(false);
 
   const handleSearch = (filters) => {
@@ -39,24 +42,41 @@ const Checkin = () => {
     dispatch(setFilteredData(attendanceData));
   };
 
-  const callEditClick = (item) => {
-    console.log("Edit attendance:", item);
-  };
+  // const callEditClick = (item) => {
+  //   console.log("Edit attendance:", item);
+  // };
+  // const callDeleteClick = (item) => {
+  //   setDeleteItem(item);
+  //   dispatch(openModal());
+  // };
 
-  const callDeleteClick = (item) => {
-    console.log("Delete attendance:", item);
-  };
+  // const handleDeleteConfirm = () => {
+  //   if (deleteItem) {
+  //     const updatedData = attendanceData.filter(
+  //       (item) => item.id !== deleteItem.id
+  //     );
+  //     dispatch(setFilteredData(updatedData)); 
+  //     setDeleteItem(null); 
+  //     dispatch(closeModal()); 
+  //     showSuccessToast("Employee deleted successfully!");
+  //   }
+  // };
 
-  const callViewClick = (item) => {
-    console.log("View attendance:", item);
-  };
+  // const handleDeleteCancel = () => {
+  //   setDeleteItem(null); 
+  //   dispatch(closeModal()); 
+  // };
+
+  // const callViewClick = (item) => {
+  //   console.log("View attendance:", item);
+  // };
 
   const columnKey = ["Name", "Date", "Status"];
 
   return (
     <div>
       <FilterToggle showFilters={showFilters} setShowFilters={setShowFilters} />
-   
+
       {showFilters && (
         <FilterForm
           EmployeeName={attendanceData.map((item) => ({
@@ -69,32 +89,31 @@ const Checkin = () => {
           handleSearch={handleSearch}
         />
       )}
-    
 
       <TableLayout
         columnKey={columnKey}
         dataItem={filteredData.length > 0 ? filteredData : attendanceData}
         renderBody={(item) => (
           <>
-            <td>{item.name}</td>
+            <td >{item.name}</td>
             <td>{item.date}</td>
             <td>{item.status}</td>
           </>
         )}
         serial_no={true}
-        edit={true}
+        // edit={true}
         // view={true}
       
         TimeCount={true}
         CheckIn
         ClickHandleCheckIn={()=> console.log("ClickHandleCheckIn clicked")}
         
-        isDelete={true}
+       
         title="Add Attendance"
         handleOpen={() => console.log("Opening form to add new attendance")}
-        callEditClick={callEditClick}
-        callDeleteClick={callDeleteClick}
-        callViewClick={callViewClick}
+        // callEditClick={callEditClick}
+        // callDeleteClick={callDeleteClick}
+        // callViewClick={callViewClick}
        
         style={{
           height: `${
@@ -103,6 +122,16 @@ const Checkin = () => {
         }}
         links={{}}
       />
+       {/* <ConfirmModalPopup
+        isOpen={isModalOpen}
+        message={
+          <>
+            Are you sure you want to delete this item ?
+          </>
+        }
+        onSubmit={handleDeleteConfirm}
+        onCancel={handleDeleteCancel}
+      /> */}
 
      
     </div>

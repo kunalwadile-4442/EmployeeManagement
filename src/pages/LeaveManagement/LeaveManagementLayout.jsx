@@ -10,7 +10,9 @@ const LeaveManagementLayout = () => {
     if (currentUrl.includes("/leave/pending")) return "pending";
     if (currentUrl.includes("/leave/approve")) return "approve";
     if (currentUrl.includes("/leave/cancelled")) return "cancelled";
-    return "pending"; // Default tab
+    if (currentUrl.includes("/leave/create")) return "create";
+
+    return "pending"; 
   };
 
   const [activeTab, setActiveTab] = useState(getActiveTab(pathname));
@@ -23,7 +25,7 @@ const LeaveManagementLayout = () => {
     <AuthenticatedLayout top_heading="">
       {/* Tab Links */}
       <div className="flex gap-3 px-3">
-        {["pending", "approve", "cancelled"].map((key) => (
+        {["pending", "approve", "cancelled","create"].map((key) => (
           <Link
             key={key}
             to={`/leave/${key}`}
@@ -37,6 +39,8 @@ const LeaveManagementLayout = () => {
             {key === "pending" && "Pending Leave"}
             {key === "cancelled" && "Cancelled Leave"}
             {key === "approve" && "Approved Leave"}
+            {key === "create" && "Request Leave"}
+
           </Link>
         ))}
       </div>

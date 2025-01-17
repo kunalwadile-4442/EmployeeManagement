@@ -408,13 +408,6 @@ const HolidayCalender = () => {
     <div>
       <FilterToggle showFilters={showFilters} setShowFilters={setShowFilters} />
 
-      <div
-  className={`transition-all duration-500 ease-in-out overflow-hidden transform ${
-    showFilters
-      ? "opacity-100 translate-y-0"
-      : "opacity-0 -translate-y-5"
-  }`}
->
       {showFilters && (
         <FilterForm
           Locations={locationOptions}
@@ -426,7 +419,7 @@ const HolidayCalender = () => {
           handleReset={handleReset}
         />
       )}
-</div>
+
       <TableLayout
         columnKey={columnKey}
         dataItem={dummyData}

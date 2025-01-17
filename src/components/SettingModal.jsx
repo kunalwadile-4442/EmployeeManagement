@@ -218,6 +218,7 @@
 // };
 
 // export default SettingModal;
+
 import React from "react";
 import Scrollbar from "./Scrollbar";
 import ReactDatePicker from "react-datepicker";
@@ -295,20 +296,20 @@ const SettingModal = ({ isOpen, onClose }) => {
             <table className="w-full table-auto border border-gray-300">
               <thead className="text-sm">
                 <tr>
-                  <th rowSpan="2" className="border border-gray-300 px-2 py-1">
+                  <th rowSpan="2" className="border table-header-left border-gray-300 px-2 py-1">
                     Days
                   </th>
-                  <th colSpan="6" className="border border-gray-300 px-2 py-1">
+                  <th colSpan="6" className="border table-header-right border-gray-300 px-2 py-1">
                     Weeks
                   </th>
                 </tr>
                 <tr>
-                  <th className="border border-gray-300 px-2 py-1">All</th>
+                  <th className="border table-header-left border-gray-300 px-2 py-1">All</th>
                   <th className="border border-gray-300 px-2 py-1">1st</th>
                   <th className="border border-gray-300 px-2 py-1">2nd</th>
                   <th className="border border-gray-300 px-2 py-1">3rd</th>
                   <th className="border border-gray-300 px-2 py-1">4th</th>
-                  <th className="border border-gray-300 px-2 py-1">5th</th>
+                  <th className="border table-header-right border-gray-300 px-2 py-1">5th</th>
                 </tr>
               </thead>
               <tbody>

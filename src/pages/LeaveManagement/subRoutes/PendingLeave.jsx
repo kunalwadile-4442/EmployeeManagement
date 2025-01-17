@@ -14,6 +14,7 @@ import ConfirmModalPopup from "../../../Popups/ConfirmModalPopup";
 
 const PendingLeave = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { attendanceData, filteredData, isModalOpen } = useSelector(
     (state) => state.hrApp
   );
@@ -70,9 +71,9 @@ const PendingLeave = () => {
     dispatch(closeModal());
   };
 
-  const callViewClick = (item) => {
-    console.log("View attendance:", item);
-  };
+ const handleCustomBtnTitle = ()=>{
+  navigate("/leave/create")
+ }
 
   const columnKey = ["Name", "Date", "Status"];
 
@@ -80,7 +81,6 @@ const PendingLeave = () => {
     <div>
       <FilterToggle showFilters={showFilters} setShowFilters={setShowFilters} />
 
-  
       {showFilters && (
         <FilterForm
           EmployeeName={attendanceData.map((item) => ({
@@ -103,7 +103,6 @@ const PendingLeave = () => {
           handleReset={handleReset}
         />
       )}
-
 
       <TableLayout
         columnKey={columnKey}
@@ -128,6 +127,9 @@ const PendingLeave = () => {
           }`,
         }}
         links={{}}
+        customBtn
+        customBtnTitle={"Add Attendance"}
+        handleCustomBtnTitle={handleCustomBtnTitle}
       />
       <ConfirmModalPopup
         isOpen={isModalOpen}

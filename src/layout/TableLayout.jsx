@@ -220,7 +220,7 @@ const TableLayout = ({
           currentItems.map((item, index) => (
             <tr key={index} className="border-b hover:bg-gray-50 my-2">
               {serial_no && (
-                <td className="py-1 px-4">{index + 1 + indexOfFirstItem}</td>
+                <td className="py-2.5 px-4">{index + 1 + indexOfFirstItem}</td>
               )}
               {renderBody(item)}
               {(edit || view || isDelete) && (

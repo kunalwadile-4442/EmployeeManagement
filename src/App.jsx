@@ -9,6 +9,10 @@ import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
 import LoadingSpinner from "./components/LoadingSpinner";
 import PrivateRoute from "./components/PrivateRoute";
+import "react-quill/dist/quill.snow.css";
+import 'react-time-picker/dist/TimePicker.css';
+import 'react-clock/dist/Clock.css';
+
 import "./App.css";
 
 
@@ -51,6 +55,7 @@ const DesignationForm = React.lazy(() => import("./pages/SetupOrganization/Desig
 // const EditCompanyProfile = React.lazy(()=> import("./pages/SetupOrganization/Company/companyForm"))
 const AddCompanyAdminForm = React.lazy(() => import("./pages/SetupOrganization/Company/AddCompanyAdminForm"));
 const DepartmentForm = React.lazy(() => import("./pages/SetupOrganization/Department/departmentForm"));
+const CreateLeave = React.lazy(() => import("./pages/LeaveManagement/subRoutes/CreateLeave"));
 
 
 const App = () => {
@@ -86,6 +91,7 @@ const App = () => {
                 <Route path="pending" element={<PrivateRoute><PendingLeave /></PrivateRoute>} />
                 <Route path="cancelled" element={<PrivateRoute><CancelledLeave /></PrivateRoute>} />
                 <Route path="approve" element={<PrivateRoute><ApproveLeave /></PrivateRoute>} />
+                <Route path="create" element={<PrivateRoute><CreateLeave /></PrivateRoute>} />
               </Route>
                 
                  {/* Projects */}

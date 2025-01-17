@@ -8,12 +8,13 @@ import {
   openModal,
   closeModal,
 } from "../../../redux/reducers/hrReducer";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { showSuccessToast } from "../../../Utils/ToastsUtils";
 import ConfirmModalPopup from "../../../Popups/ConfirmModalPopup";
 
 const CancelledLeave = () => {
   const dispatch = useDispatch();
+  const navigate  = useNavigate();
   const { attendanceData, filteredData, isModalOpen } = useSelector(
     (state) => state.hrApp
   );
@@ -53,6 +54,11 @@ const CancelledLeave = () => {
     dispatch(openModal());
   };
 
+  const handleCustomBtnTitle = ()=>{
+    navigate("/leave/create")
+   }
+  
+
   const handleDeleteConfirm = () => {
     if (deleteItem) {
       const updatedData = attendanceData.filter(
@@ -80,7 +86,6 @@ const CancelledLeave = () => {
     <div>
       <FilterToggle showFilters={showFilters} setShowFilters={setShowFilters} />
 
-   
       {showFilters && (
         <FilterForm
           EmployeeName={attendanceData.map((item) => ({
@@ -103,7 +108,6 @@ const CancelledLeave = () => {
           handleReset={handleReset}
         />
       )}
-     
 
       <TableLayout
         columnKey={columnKey}
@@ -128,6 +132,9 @@ const CancelledLeave = () => {
           }`,
         }}
         links={{}}
+        customBtn
+        customBtnTitle={"Add Attendance"}
+        handleCustomBtnTitle={handleCustomBtnTitle}
       />
       <ConfirmModalPopup
         isOpen={isModalOpen}

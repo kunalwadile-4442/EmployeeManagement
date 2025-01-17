@@ -15,8 +15,8 @@ import employeeDocsUploadReducer from './reducers/employeeDocsUpload'
 import HolidayFormReducer from './reducers/holidayFormReducer'
 import CompanyCreateAdminReducer from './reducers/CompanyCreateAdminReducer'
 import weekDefinitionReducer from './reducers/settingModalReducer'
-
-
+import attendanceModalReducer from './reducers/attendanceModalReducer'
+import createLeaveReducer from './reducers/createLeaveReducer'
 
 
 
@@ -38,7 +38,8 @@ const store = configureStore({
     holidayForm: HolidayFormReducer,
     CompanyAdmin: CompanyCreateAdminReducer,
     weekDefinition: weekDefinitionReducer,
-    
+    attendanceModal: attendanceModalReducer,
+    createLeave: createLeaveReducer,
   },
 });
 

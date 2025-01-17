@@ -49,7 +49,7 @@ const initialState = {
     departmentName: "",
     locationName: "",
     designationName: "",
-    report_to: "Sachin Sir/ Rohit Sri",
+    report_to: "",
     dateOfJoining: "2023/01/15", 
     yearlyExperience: null, 
     monthlyExperience: null, 

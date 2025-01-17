@@ -206,6 +206,10 @@ function BasicInfo() {
     { value: "Chennai", label: "Chennai" },
   ];
 
+  const reportMailOptions = [
+    { value:"kunal@appristine.in", label:"kunal@appristine.in"},
+    { value:"vaibhav.k@appristine.in", label:"vaibhav.k@appristine.in"},
+  ]
   return (
     <FormLayout
       content={{
@@ -382,13 +386,26 @@ function BasicInfo() {
           />
         </div>
         <div className="mb-4">
-          <InputField
-            name="Report"
-            placeholder="Add Report"
+
+        <DropdownSelectNew
+            label="Report"
+            name="report_to"
+            options={reportMailOptions}
+            onSelect={(option) => {
+              handleInputChange("report_to", option.value);
+              setValue("report_to", option.value);
+            }}
+            value={reportMailOptions.find(
+              (option) => option.value === basicDetails.report_to
+            )}
+            placeholder="Select"
+            control={control}
             className=""
-            inputClassName="h-9 rounded-md"
-            register={register(`report_to`)}
+            setValue={setValue}
+            multiselect={true}
           />
+
+         
         </div>
       </div>
 

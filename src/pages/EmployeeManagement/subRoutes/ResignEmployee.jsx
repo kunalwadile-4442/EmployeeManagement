@@ -123,8 +123,6 @@ const callDeleteClick = (item) => {
     <div>
       <FilterToggle showFilters={showFilters} setShowFilters={setShowFilters} />
 
-
-  
       {showFilters && (
         <FilterForm
           EmployeeName={
